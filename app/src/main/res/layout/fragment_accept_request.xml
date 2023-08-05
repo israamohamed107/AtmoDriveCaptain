@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_10sdp"
+    tools:context=".ui.home.requests.AcceptRequestFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:text="Going to pickup"
+            android:textStyle="bold"
+            android:fontFamily="@font/dm_sans"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:padding="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_passenger_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txt_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Israa Mohamed"
+            android:textStyle="bold"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_15ssp"
+            android:fontFamily="@font/dm_sans"
+            android:layout_margin="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            />
+        <TextView
+            android:id="@+id/txt_trip_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="105 EGB"
+            android:textColor="@color/green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txt_passenger_name"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold"
+            android:fontFamily="@font/dm_sans"
+            android:layout_marginTop="@dimen/_5sdp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/hint_color"
+            app:layout_constraintTop_toBottomOf="@id/txt_trip_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+
+            />
+
+        <RatingBar
+            android:id="@+id/rate_bar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:paddingVertical="@dimen/_5sdp"
+            android:progressTint="@color/orange"
+            android:rating="4"
+            android:stepSize="1"
+            app:layout_constraintStart_toStartOf="@id/txt_passenger_name"
+            app:layout_constraintTop_toBottomOf="@id/txt_passenger_name" />
+
+        <TextView
+            android:id="@+id/txt_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(4.0)"
+            android:textColor="@color/secondary_color"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintStart_toEndOf="@id/rate_bar"
+            app:layout_constraintTop_toTopOf="@id/rate_bar"
+            android:paddingVertical="@dimen/_5sdp"
+            />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:src="@drawable/ic_trip"
+            app:layout_constraintStart_toStartOf="@id/txt_passenger_name"
+            app:layout_constraintTop_toBottomOf="@id/rate_bar" />
+
+        <TextView
+            android:id="@+id/txt_start_piont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:text="B. 1256, Northern Ex. - 6 Oct."
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/secondary_color"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@id/imageView" />
+
+        <TextView
+            android:id="@+id/txt_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+
+            android:text="402 El Mehwar Str. "
+            android:textColor="@color/secondary_color"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView" />
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact passenger"
+            android:textSize="@dimen/_12ssp"
+            android:fontFamily="@font/dm_sans"
+            android:textColor="@color/textColor"
+            app:layout_constraintTop_toBottomOf="@id/imageView"
+            app:layout_constraintStart_toStartOf="@id/imageView"
+            android:layout_marginVertical="@dimen/_5sdp"
+            />
+        <ImageView
+            android:id="@+id/img_dial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dial"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintStart_toStartOf="@id/textView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="@dimen/_10sdp"
+            />
+
+        <ImageView
+            android:id="@+id/img_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chat"
+            app:layout_constraintTop_toTopOf="@id/img_dial"
+            app:layout_constraintStart_toEndOf="@id/img_dial"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_reject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".4"
+            android:text="@string/arrived"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/main_color"
+            android:textSize="@dimen/_13ssp"
+            android:fontFamily="@font/dm_sans"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:cornerRadius="@dimen/_5sdp"
+            android:textAllCaps="false"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

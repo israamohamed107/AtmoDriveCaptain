@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_10sdp"
+    tools:context=".ui.home.requests.NewRequestFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_color"
+            android:text="@string/new_request"
+            android:textStyle="bold"
+            android:fontFamily="@font/dm_sans"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:padding="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/txt_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_title" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_5sdp"
+            android:max="50"
+            android:progress="30"
+            android:progressTint="@color/green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_title" />
+
+        <TextView
+            android:id="@+id/txt_passenger_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Israa Mohamed"
+            android:textStyle="bold"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_15ssp"
+            android:fontFamily="@font/dm_sans"
+            android:layout_margin="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            />
+        <TextView
+            android:id="@+id/txt_trip_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="105 EGB"
+            android:textColor="@color/green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txt_passenger_name"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold"
+            android:fontFamily="@font/dm_sans"
+            android:layout_marginTop="@dimen/_5sdp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/hint_color"
+            app:layout_constraintTop_toBottomOf="@id/txt_trip_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+
+            />
+
+        <RatingBar
+            android:id="@+id/rate_bar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:paddingVertical="@dimen/_5sdp"
+            android:progressTint="@color/orange"
+            android:rating="4"
+            android:stepSize="1"
+            app:layout_constraintStart_toStartOf="@id/txt_passenger_name"
+            app:layout_constraintTop_toBottomOf="@id/txt_passenger_name" />
+
+        <TextView
+            android:id="@+id/txt_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(4.0)"
+            android:textColor="@color/secondary_color"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintStart_toEndOf="@id/rate_bar"
+            app:layout_constraintTop_toTopOf="@id/rate_bar"
+            android:paddingVertical="@dimen/_5sdp"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:src="@drawable/ic_trip"
+            app:layout_constraintStart_toStartOf="@id/txt_passenger_name"
+            app:layout_constraintTop_toBottomOf="@id/rate_bar" />
+
+        <TextView
+            android:id="@+id/txt_start_piont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:text="B. 1256, Northern Ex. - 6 Oct."
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/secondary_color"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@id/imageView" />
+
+        <TextView
+            android:id="@+id/txt_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+
+            android:text="402 El Mehwar Str. "
+            android:textColor="@color/secondary_color"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_accept"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".4"
+            android:text="@string/accept"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/green"
+            android:textSize="@dimen/_13ssp"
+            android:fontFamily="@font/dm_sans"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/imageView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/imageView"
+            android:paddingVertical="@dimen/_8sdp"
+            app:cornerRadius="@dimen/_5sdp"
+            android:textAllCaps="false"
+            android:layout_marginVertical="@dimen/_10sdp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_reject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".4"
+            android:text="@string/reject"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:textSize="@dimen/_13ssp"
+            android:fontFamily="@font/dm_sans"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/btn_accept"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_accept"
+            android:paddingVertical="@dimen/_8sdp"
+            app:cornerRadius="@dimen/_5sdp"
+            android:textAllCaps="false"
+            android:layout_marginBottom="@dimen/_10sdp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

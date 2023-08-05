@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.AtmoDriveFragment"
+    android:background="@color/atmoColor"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/backgroundColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:elevation="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".85">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:background="@drawable/profile_background"
+                    android:src="@drawable/profile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txt_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/dm_sans"
+                    android:text="Israa Mohamed"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/img_profile"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RatingBar
+                    android:id="@+id/rate_bar"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:padding="@dimen/_5sdp"
+                    android:progressTint="@color/orange"
+                    android:rating="4"
+                    android:stepSize="1"
+                    app:layout_constraintStart_toStartOf="@id/txt_name"
+                    app:layout_constraintTop_toBottomOf="@id/txt_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:maxLength="13"
+                    android:text="+201234567890"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/rate_bar"
+                    app:layout_constraintTop_toBottomOf="@id/rate_bar" />
+
+                <TextView
+                    android:id="@+id/txt_balance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:background="@drawable/rounded_background"
+                    android:fontFamily="@font/dm_sans"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:text="550 EGP in wallet"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/img_profile"
+                    app:layout_constraintTop_toBottomOf="@id/img_profile"
+                    app:layout_constraintWidth_percent=".5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/dm_sans"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Redeem?"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_balance"
+                    app:layout_constraintStart_toEndOf="@id/txt_balance"
+                    app:layout_constraintTop_toTopOf="@id/txt_balance" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/txt_acc_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/account_information_coming_soon"
+        android:textSize="@dimen/_13ssp"
+        android:fontFamily="@font/dm_sans"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        android:padding="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/backgroundColor"
+        android:textColor="@color/hint_color"
+        android:drawableEnd="@drawable/baseline_navigate"
+        />
+
+    <TextView
+        android:id="@+id/txt_trips_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/trips_history"
+        android:textSize="@dimen/_13ssp"
+        android:fontFamily="@font/dm_sans"
+        app:layout_constraintTop_toBottomOf="@+id/txt_acc_info"
+        android:padding="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/backgroundColor"
+        android:textColor="@color/textColor"
+        android:drawableEnd="@drawable/baseline_navigate"
+        />
+
+
+    <TextView
+        android:id="@+id/txt_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:textSize="@dimen/_13ssp"
+        android:fontFamily="@font/dm_sans"
+        app:layout_constraintTop_toBottomOf="@+id/txt_trips_history"
+        android:padding="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/backgroundColor"
+        android:textColor="@color/textColor"
+        android:drawableEnd="@drawable/baseline_navigate"
+        />
+
+    <TextView
+        android:id="@+id/txt_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/language"
+        android:textSize="@dimen/_13ssp"
+        android:fontFamily="@font/dm_sans"
+        app:layout_constraintTop_toBottomOf="@+id/txt_settings"
+        android:padding="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/backgroundColor"
+        android:textColor="@color/textColor"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="English"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:textSize="@dimen/_13ssp"
+        android:fontFamily="@font/dm_sans"
+        app:layout_constraintTop_toTopOf="@id/txt_language"
+        app:layout_constraintBottom_toBottomOf="@id/txt_language"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/backgroundColor"
+        android:textColor="@color/main_color"
+        />
+
+    <TextView
+        android:id="@+id/txt_contact_us"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/contact_us"
+        android:textSize="@dimen/_13ssp"
+        android:fontFamily="@font/dm_sans"
+        app:layout_constraintTop_toBottomOf="@+id/txt_language"
+        android:padding="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/backgroundColor"
+        android:textColor="@color/textColor"
+        android:drawableEnd="@drawable/baseline_navigate"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_logout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/atmoColor"
+        android:fontFamily="@font/dm_sans"
+        android:padding="@dimen/_10sdp"
+        android:text="Logout"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:textSize="@dimen/_15ssp"
+        android:layout_marginVertical="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_contact_us"
+        app:layout_constraintWidth_percent=".35"
+        app:strokeColor="@color/red"
+        app:strokeWidth="1dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AtmoDrive Captain - Android \nv1.0.0(1)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_logout"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:gravity="center"
+        android:textColor="@color/hint_color"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
