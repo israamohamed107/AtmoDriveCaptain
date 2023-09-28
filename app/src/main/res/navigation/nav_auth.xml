@@ -7,7 +7,40 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.israa.atmodrivecaptain.ui.auth.LoginFragment"
+        android:name="com.israa.atmodrivecaptain.auth.presentation.fragments.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_personalInfoFragment"
+            app:destination="@id/personalInformationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/vehicleInformationFragment"
+        android:name="com.israa.atmodrivecaptain.auth.presentation.fragments.VehicleInformationFragment"
+        android:label="Create account"
+        tools:layout="@layout/fragment_vehicle_information">
+        <action
+            android:id="@+id/action_vehicleInformationFragment_to_bankAccountFragment"
+            app:destination="@id/bankAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bankAccountFragment"
+        android:name="com.israa.atmodrivecaptain.auth.presentation.fragments.BankAccountFragment"
+        android:label="Create account"
+        tools:layout="@layout/fragment_bank_account" />
+    <fragment
+        android:id="@+id/personalInformationFragment"
+        android:name="com.israa.atmodrivecaptain.auth.presentation.fragments.PersonalInformationFragment"
+        android:label="Create account"
+        tools:layout="@layout/fragment_personal_information">
+        <action
+            android:id="@+id/action_personalInformationFragment_to_vehicleInformationFragment"
+            app:destination="@id/vehicleInformationFragment"
+            app:popUpTo="@id/nav_auth"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="mobile"
+            app:argType="string" />
+    </fragment>
 </navigation>

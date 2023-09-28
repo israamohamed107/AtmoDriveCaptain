@@ -5,5 +5,12 @@
     <color name="textColor">#fff</color>
     <color name="atmoColor">#F1F4FA</color>
     <color name="backgroundColor">#1C1C1E</color>
+    <color name="edTxtBackground">#444548</color>
+    <color name="editColor">#fff</color>
+    <color name="circleColor">#646568</color>
+    <color name="light_gray">#F1F4FA</color>
+    <color name="horizontal_progressbar_background">#6A6A6C</color>
+    <color name="progressbar_background">#ACACAC</color>
+
 
 </resources>

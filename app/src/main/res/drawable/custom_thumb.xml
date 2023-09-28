@@ -3,7 +3,7 @@
     <item android:state_checked="true">
         <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
             <corners android:radius="10dp" />
-            <solid android:color="@color/backgroundColor" />
+            <solid android:color="@color/edTxtBackground" />
             <size android:width="20dp" android:height="20dp" />
             <stroke android:width="2dp" android:color="@color/main_color" />
         </shape>
@@ -11,7 +11,7 @@
     <item android:state_checked="false">
         <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
             <corners android:radius="10dp" />
-            <solid android:color="@color/backgroundColor" />
+            <solid android:color="@color/edTxtBackground" />
             <size android:width="20dp" android:height="20dp" />
             <stroke android:width="2dp" android:color="#cdcdcd" />
         </shape>

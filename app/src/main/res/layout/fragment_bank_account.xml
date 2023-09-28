@@ -4,26 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.auth.BankAccountFragment"
-    android:padding="@dimen/_10sdp">
+    tools:context=".auth.presentation.fragments.BankAccountFragment"
+    android:padding="@dimen/_10sdp"
+    android:background="@color/backgroundColor"
+    >
 
-
-    <TextView
-        android:id="@+id/txt_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/_15sdp"
-        android:paddingVertical="@dimen/_10sdp"
-        android:paddingStart="@dimen/_15sdp"
-        android:text="@string/create_account"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_18ssp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="@font/dm_sans"
-        />
 
 
     <TextView
@@ -33,19 +18,20 @@
         android:fontFamily="@font/dm_sans"
         android:paddingBottom="@dimen/_10sdp"
         android:paddingStart="@dimen/_15sdp"
-        android:text="@string/step_5_bank_account_optional"
+        android:text="@string/step_3_bank_account"
         android:textSize="@dimen/_13ssp"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/txt_title"
-        app:layout_constraintTop_toBottomOf="@id/txt_title" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="50"
-        android:progress="50"
+        android:layout_height="@dimen/_10sdp"
+        android:max="30"
+        android:progress="30"
         android:progressDrawable="@drawable/custom_progress_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,28 +43,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_20sdp"
-        android:hint="Bank Name"
+        android:hint="@string/bank_name"
+        android:paddingVertical="@dimen/_10sdp"
         android:textColorHint="@color/hint_color"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
         android:backgroundTint="@color/hint_color"
-        android:inputType="number"
+        android:inputType="text"
+        android:textSize="@dimen/_13sdp"
         />
     <EditText
-        android:id="@+id/editText_personal_name"
+        android:id="@+id/editText_account_personal_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
         android:hint="Account personal name"
+        android:paddingVertical="@dimen/_10sdp"
         android:textColorHint="@color/hint_color"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_bank_name"
         android:backgroundTint="@color/hint_color"
-        android:inputType="number"
+        android:inputType="text"
+        android:textSize="@dimen/_13sdp"
         />
     <EditText
         android:id="@+id/editText_account_number"
@@ -87,12 +77,15 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:hint="Account number"
         android:textColorHint="@color/hint_color"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_personal_name"
+        app:layout_constraintTop_toBottomOf="@id/editText_account_personal_name"
         android:backgroundTint="@color/hint_color"
-        android:inputType="number"
+        android:inputType="text"
+        android:paddingVertical="@dimen/_10sdp"
+        android:textSize="@dimen/_13sdp"
+
         />
     <EditText
         android:id="@+id/editText_iban_number"
@@ -101,12 +94,14 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:hint="IBAN number"
         android:textColorHint="@color/hint_color"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_account_number"
         android:backgroundTint="@color/hint_color"
-        android:inputType="number"
+        android:inputType="text"
+        android:paddingVertical="@dimen/_10sdp"
+        android:textSize="@dimen/_13sdp"
         />
 
     <com.google.android.material.button.MaterialButton
@@ -115,16 +110,37 @@
         android:layout_height="wrap_content"
         android:elevation="@dimen/_5sdp"
         android:padding="@dimen/_10sdp"
-        android:text="@string/submit_information"
+        android:text="@string/submit"
         android:textAllCaps="false"
         android:textSize="@dimen/_15ssp"
         app:cornerRadius="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_iban_number"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/main_color"
         />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_skip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_5sdp"
+        android:padding="@dimen/_10sdp"
+        android:text="@string/skip"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_15ssp"
+        app:cornerRadius="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_submit"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textColor="@color/main_color"
+        android:backgroundTint="@color/backgroundColor"
+        app:strokeWidth="@dimen/_1sdp"
+        app:strokeColor="@color/main_color"
+        />
     <TextView
         android:id="@+id/txt_terms_and_conditions"
         android:layout_width="wrap_content"
@@ -132,11 +148,10 @@
         android:paddingHorizontal="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:text="@string/by_continue_you_agree_to_atmodrive_s"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_submit"
-        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/btn_skip"
         />
 
 
@@ -146,11 +161,10 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/_10sdp"
         android:text="@string/privacy_policy"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_terms_and_conditions"
-        android:layout_marginStart="@dimen/_10sdp"
         />
 
 

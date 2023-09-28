@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.splash.SplashActivity">
+    tools:context=".splash.SplashActivity"
+    android:background="@color/backgroundColor"
+    >
+
 
     <ImageView
         android:layout_width="wrap_content"
@@ -13,7 +16,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/logo"
-        app:tint="@color/gray" />
+        android:src="@drawable/logo_dark"/>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/powered_by_atmosphere_ncaptain_app_ios_nv1_0_0_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:gravity="center"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_10sdp"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/_10sdp"
-    tools:context=".ui.auth.PickCarImagesFragment">
+    tools:context=".auth.presentation.fragments.PickCarImagesFragment">
 
     <TextView
         android:id="@+id/textView7"
@@ -14,8 +14,8 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:fontFamily="@font/dm_sans"
         android:text="@string/pick_car_images"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_15ssp"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_13ssp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,11 +26,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:text="@string/choose_clear_images_for_your_car_from_n_those_6_sides"
-        android:textSize="@dimen/_13ssp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <ImageView
+        android:id="@+id/close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_close"
@@ -41,72 +43,241 @@
         android:layout_margin="@dimen/_10sdp"
         />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5"
+        />
+
     <ImageView
-        android:id="@+id/img_first_side"
+        android:id="@+id/img_left_side"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent=".18"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
         android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
         app:layout_constraintWidth_percent=".48"
-        android:src="@drawable/first_side"
+        android:src="@drawable/left_side"
         android:background="@drawable/dotted_background"
         android:scaleType="fitXY"
+        android:layout_marginEnd="@dimen/_2sdp"
+        android:padding="@dimen/_1sdp"
+        />
+
+    <ImageView
+        android:id="@+id/img_retry_left_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_left_side"
+        app:layout_constraintEnd_toEndOf="@+id/img_left_side"
+        app:layout_constraintStart_toStartOf="@+id/img_left_side"
+        app:layout_constraintTop_toTopOf="@+id/img_left_side"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_left_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/light_gray"
+        android:scaleType="center"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_left_side"
+        app:layout_constraintEnd_toEndOf="@+id/img_left_side"
+        app:layout_constraintStart_toStartOf="@+id/img_left_side"
+        app:layout_constraintTop_toTopOf="@+id/img_left_side"
+        android:visibility="gone"
         />
 
 
     <ImageView
-        android:id="@+id/img_insert_first_side"
+        android:id="@+id/img_insert_left_side"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/circular_background"
         android:scaleType="center"
         android:src="@drawable/baseline_add_photo_alternate"
-        app:layout_constraintBottom_toBottomOf="@id/img_first_side"
-        app:layout_constraintStart_toStartOf="@+id/img_first_side"
+        app:layout_constraintBottom_toBottomOf="@id/img_left_side"
+        app:layout_constraintStart_toStartOf="@+id/img_left_side"
         android:layout_margin="@dimen/_5sdp"
         />
 
     <ImageView
-        android:id="@+id/img_second_side"
+        android:id="@+id/img_delete_left_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_delete_forever"
+        app:layout_constraintBottom_toBottomOf="@id/img_left_side"
+        app:layout_constraintStart_toStartOf="@+id/img_left_side"
+        android:layout_margin="@dimen/_5sdp"
+        app:tint="@color/red"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/img_edit_left_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_edit"
+        app:layout_constraintBottom_toBottomOf="@id/img_delete_left_side"
+        app:layout_constraintStart_toEndOf="@id/img_delete_left_side"
+        app:layout_constraintTop_toTopOf="@id/img_delete_left_side"
+        android:layout_margin="@dimen/_5sdp"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+
+        />
+
+    <ImageView
+        android:id="@+id/img_right_side"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent=".18"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
         android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline"
         app:layout_constraintWidth_percent=".48"
-        android:src="@drawable/second_side"
+        android:src="@drawable/right_side"
         android:background="@drawable/dotted_background"
         android:scaleType="fitXY"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:padding="@dimen/_1sdp"
         />
 
     <ImageView
-        android:id="@+id/img_insert_second_side"
+        android:id="@+id/img_retry_right_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_right_side"
+        app:layout_constraintEnd_toEndOf="@+id/img_right_side"
+        app:layout_constraintStart_toStartOf="@+id/img_right_side"
+        app:layout_constraintTop_toTopOf="@+id/img_right_side"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_right_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/light_gray"
+        android:scaleType="center"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_right_side"
+        app:layout_constraintEnd_toEndOf="@+id/img_right_side"
+        app:layout_constraintStart_toStartOf="@+id/img_right_side"
+        app:layout_constraintTop_toTopOf="@+id/img_right_side"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/img_insert_right_side"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/circular_background"
         android:scaleType="center"
         android:src="@drawable/baseline_add_photo_alternate"
-        app:layout_constraintBottom_toBottomOf="@id/img_second_side"
-        app:layout_constraintStart_toStartOf="@+id/img_second_side"
+        app:layout_constraintBottom_toBottomOf="@id/img_right_side"
+        app:layout_constraintStart_toStartOf="@+id/img_right_side"
         android:layout_margin="@dimen/_5sdp"
         />
 
+    <ImageView
+        android:id="@+id/img_delete_right_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_delete_forever"
+        app:layout_constraintBottom_toBottomOf="@id/img_right_side"
+        app:layout_constraintStart_toStartOf="@+id/img_right_side"
+        android:layout_margin="@dimen/_5sdp"
+        app:tint="@color/red"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+
+        />
+
+    <ImageView
+        android:id="@+id/img_edit_right_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_edit"
+        app:layout_constraintBottom_toBottomOf="@id/img_delete_right_side"
+        app:layout_constraintStart_toEndOf="@id/img_delete_right_side"
+        app:layout_constraintTop_toTopOf="@id/img_delete_right_side"
+        android:layout_margin="@dimen/_5sdp"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+        />
 
     <ImageView
         android:id="@+id/img_front_side"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent=".18"
-        app:layout_constraintTop_toBottomOf="@+id/img_first_side"
-        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintTop_toBottomOf="@+id/img_left_side"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
         app:layout_constraintWidth_percent=".48"
         android:src="@drawable/front_side"
         android:background="@drawable/dotted_background"
         android:scaleType="fitXY"
+        android:layout_marginEnd="@dimen/_2sdp"
+        android:padding="@dimen/_1sdp"
+        />
+
+    <ImageView
+        android:id="@+id/img_retry_front_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_front_side"
+        app:layout_constraintEnd_toEndOf="@+id/img_front_side"
+        app:layout_constraintStart_toStartOf="@+id/img_front_side"
+        app:layout_constraintTop_toTopOf="@+id/img_front_side"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_front_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/light_gray"
+        android:scaleType="center"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_front_side"
+        app:layout_constraintEnd_toEndOf="@+id/img_front_side"
+        app:layout_constraintStart_toStartOf="@+id/img_front_side"
+        app:layout_constraintTop_toTopOf="@+id/img_front_side"
+        android:visibility="gone"
         />
 
     <ImageView
@@ -121,20 +292,85 @@
         android:layout_margin="@dimen/_5sdp"
         />
 
+    <ImageView
+        android:id="@+id/img_delete_front_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_delete_forever"
+        app:layout_constraintBottom_toBottomOf="@id/img_front_side"
+        app:layout_constraintStart_toStartOf="@+id/img_front_side"
+        android:layout_margin="@dimen/_5sdp"
+        app:tint="@color/red"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/img_edit_front_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_edit"
+        app:layout_constraintBottom_toBottomOf="@id/img_delete_front_side"
+        app:layout_constraintStart_toEndOf="@id/img_delete_front_side"
+        app:layout_constraintTop_toTopOf="@id/img_delete_front_side"
+        android:layout_margin="@dimen/_5sdp"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+        />
+
 
     <ImageView
         android:id="@+id/img_back_side"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent=".18"
-        app:layout_constraintTop_toBottomOf="@+id/img_second_side"
-        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintTop_toBottomOf="@+id/img_right_side"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline"
         app:layout_constraintWidth_percent=".48"
         android:src="@drawable/back_side"
         android:background="@drawable/dotted_background"
         android:scaleType="fitXY"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:padding="@dimen/_1sdp"
         />
+
+    <ImageView
+        android:id="@+id/img_retry_back_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_back_side"
+        app:layout_constraintEnd_toEndOf="@+id/img_back_side"
+        app:layout_constraintStart_toStartOf="@+id/img_back_side"
+        app:layout_constraintTop_toTopOf="@+id/img_back_side"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_back_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/light_gray"
+        android:scaleType="center"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_back_side"
+        app:layout_constraintEnd_toEndOf="@+id/img_back_side"
+        app:layout_constraintStart_toStartOf="@+id/img_back_side"
+        app:layout_constraintTop_toTopOf="@+id/img_back_side"
+        android:visibility="gone"
+        />
+
 
     <ImageView
         android:id="@+id/img_insert_back_side"
@@ -150,73 +386,238 @@
 
 
     <ImageView
-        android:id="@+id/img_top_side"
+        android:id="@+id/img_delete_back_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_delete_forever"
+        app:layout_constraintBottom_toBottomOf="@id/img_back_side"
+        app:layout_constraintStart_toStartOf="@+id/img_back_side"
+        android:layout_margin="@dimen/_5sdp"
+        app:tint="@color/red"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/img_edit_back_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_edit"
+        app:layout_constraintBottom_toBottomOf="@id/img_delete_back_side"
+        app:layout_constraintStart_toEndOf="@id/img_delete_back_side"
+        app:layout_constraintTop_toTopOf="@id/img_delete_back_side"
+        android:layout_margin="@dimen/_5sdp"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+        />
+
+
+    <ImageView
+        android:id="@+id/img_front_seat"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent=".18"
         app:layout_constraintTop_toBottomOf="@+id/img_front_side"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
         app:layout_constraintWidth_percent=".48"
-        android:src="@drawable/top_side"
+        android:src="@drawable/front_seat"
         android:background="@drawable/dotted_background"
         android:scaleType="fitXY"
+        android:layout_marginEnd="@dimen/_2sdp"
+        android:padding="@dimen/_1sdp"
+        />
+    <ImageView
+        android:id="@+id/img_retry_front_seat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_front_seat"
+        app:layout_constraintEnd_toEndOf="@+id/img_front_seat"
+        app:layout_constraintStart_toStartOf="@+id/img_front_seat"
+        app:layout_constraintTop_toTopOf="@+id/img_front_seat"
+        android:visibility="gone"
         />
 
+    <ProgressBar
+        android:id="@+id/progress_front_seat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/light_gray"
+        android:scaleType="center"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_front_seat"
+        app:layout_constraintEnd_toEndOf="@+id/img_front_seat"
+        app:layout_constraintStart_toStartOf="@+id/img_front_seat"
+        app:layout_constraintTop_toTopOf="@+id/img_front_seat"
+        android:visibility="gone"
+        />
+
+
     <ImageView
-        android:id="@+id/img_insert_top_side"
+        android:id="@+id/img_insert_front_seat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/circular_background"
         android:scaleType="center"
         android:src="@drawable/baseline_add_photo_alternate"
-        app:layout_constraintBottom_toBottomOf="@id/img_top_side"
-        app:layout_constraintStart_toStartOf="@+id/img_top_side"
+        app:layout_constraintBottom_toBottomOf="@id/img_front_seat"
+        app:layout_constraintStart_toStartOf="@+id/img_front_seat"
         android:layout_margin="@dimen/_5sdp"
         />
 
     <ImageView
-        android:id="@+id/img_side"
+        android:id="@+id/img_delete_front_seat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_delete_forever"
+        app:layout_constraintBottom_toBottomOf="@id/img_front_seat"
+        app:layout_constraintStart_toStartOf="@+id/img_front_seat"
+        android:layout_margin="@dimen/_5sdp"
+        app:tint="@color/red"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/img_edit_front_seat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_edit"
+        app:layout_constraintBottom_toBottomOf="@id/img_delete_front_seat"
+        app:layout_constraintStart_toEndOf="@id/img_delete_front_seat"
+        app:layout_constraintTop_toTopOf="@id/img_delete_front_seat"
+        android:layout_margin="@dimen/_5sdp"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+
+        />
+
+    <ImageView
+        android:id="@+id/img_back_seat"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent=".18"
-        app:layout_constraintTop_toBottomOf="@+id/img_back_side"
-        android:layout_marginTop="@dimen/_20sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent=".48"
-        android:src="@drawable/car_photo"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/dotted_background"
         android:scaleType="fitXY"
+        android:src="@drawable/back_seat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".18"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/img_back_side"
+        app:layout_constraintWidth_percent=".48"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:padding="@dimen/_1sdp"
         />
 
     <ImageView
-        android:id="@+id/img_insert_side"
+        android:id="@+id/img_insert_back_seat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/circular_background"
         android:scaleType="center"
         android:src="@drawable/baseline_add_photo_alternate"
-        app:layout_constraintBottom_toBottomOf="@id/img_side"
-        app:layout_constraintStart_toStartOf="@+id/img_side"
+        app:layout_constraintBottom_toBottomOf="@id/img_back_seat"
+        app:layout_constraintStart_toStartOf="@+id/img_back_seat"
         android:layout_margin="@dimen/_5sdp"
         />
 
+    <ImageView
+        android:id="@+id/img_retry_back_seat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_back_seat"
+        app:layout_constraintEnd_toEndOf="@+id/img_back_seat"
+        app:layout_constraintStart_toStartOf="@+id/img_back_seat"
+        app:layout_constraintTop_toTopOf="@+id/img_back_seat"
+        android:visibility="gone"
+        />
 
+    <ProgressBar
+        android:id="@+id/progress_back_seat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/light_gray"
+        android:scaleType="center"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_back_seat"
+        app:layout_constraintEnd_toEndOf="@+id/img_back_seat"
+        app:layout_constraintStart_toStartOf="@+id/img_back_seat"
+        app:layout_constraintTop_toTopOf="@+id/img_back_seat"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/img_delete_back_seat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_delete_forever"
+        app:layout_constraintBottom_toBottomOf="@id/img_back_seat"
+        app:layout_constraintStart_toStartOf="@+id/img_back_seat"
+        android:layout_margin="@dimen/_5sdp"
+        app:tint="@color/red"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+
+        />
+    <ImageView
+        android:id="@+id/img_edit_back_seat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/baseline_edit"
+        app:layout_constraintBottom_toBottomOf="@id/img_delete_back_seat"
+        app:layout_constraintStart_toEndOf="@id/img_delete_back_seat"
+        app:layout_constraintTop_toTopOf="@id/img_delete_back_seat"
+        android:layout_margin="@dimen/_5sdp"
+        android:backgroundTint="@color/backgroundColor"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"
+
+        />
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/_5sdp"
         android:padding="@dimen/_10sdp"
         android:text="@string/confirm"
+        android:textColor="@color/white"
         android:textAllCaps="false"
         android:textSize="@dimen/_15ssp"
         app:cornerRadius="@dimen/_5sdp"
-        app:layout_constraintTop_toBottomOf="@id/img_top_side"
+        app:layout_constraintTop_toBottomOf="@id/img_front_seat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:backgroundTint="@color/main_color"
         />
 
 

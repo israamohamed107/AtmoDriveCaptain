@@ -4,25 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.auth.VehicleInformationFragment"
-    android:padding="@dimen/_10sdp">
-
-    <TextView
-        android:id="@+id/txt_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/_15sdp"
-        android:paddingVertical="@dimen/_10sdp"
-        android:paddingStart="@dimen/_15sdp"
-        android:text="@string/create_account"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_18ssp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="@font/dm_sans"
-        />
+    tools:context=".auth.presentation.fragments.VehicleInformationFragment"
+    android:padding="@dimen/_10sdp"
+    android:background="@color/backgroundColor"
+    >
 
     <TextView
         android:id="@+id/text_step"
@@ -31,19 +16,20 @@
         android:fontFamily="@font/dm_sans"
         android:paddingBottom="@dimen/_10sdp"
         android:paddingStart="@dimen/_15sdp"
-        android:text="@string/step_4_vehicle_information"
+        android:text="@string/step_2_vehicle_information"
         android:textSize="@dimen/_13ssp"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_title" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="50"
-        android:progress="40"
+        android:layout_height="@dimen/_10sdp"
+        android:max="30"
+        android:progress="20"
         android:progressDrawable="@drawable/custom_progress_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,11 +118,13 @@
             app:layout_constraintTop_toTopOf="@+id/img_car_side3" />
 
         <TextView
-            android:id="@+id/txt_add_id_front"
+            android:id="@+id/txt_add_carr_photoes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dm_sans"
-            android:text="Car images (6 sides)"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_11sdp"
+            android:text="@string/car_images_6_sides"
             app:layout_constraintEnd_toEndOf="@id/img_insert_car_photos"
             app:layout_constraintStart_toStartOf="@id/img_insert_car_photos"
             app:layout_constraintTop_toBottomOf="@id/img_insert_car_photos" />
@@ -151,6 +139,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:scaleType="center"
             android:layout_margin="@dimen/_5sdp"
+            android:visibility="gone"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -159,13 +148,12 @@
         android:id="@+id/img_licence_front"
         android:layout_width="0dp"
         android:layout_height="@dimen/_100sdp"
-        android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/dotted_background"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraint"
-        app:layout_constraintWidth_percent=".46" />
+        app:layout_constraintWidth_percent=".48" />
 
 
     <ImageView
@@ -186,6 +174,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/dm_sans"
         android:text="@string/car_licence_front"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_11sdp"
         app:layout_constraintEnd_toEndOf="@id/img_insert_car_licence_front"
         app:layout_constraintStart_toStartOf="@id/img_insert_car_licence_front"
         app:layout_constraintTop_toBottomOf="@id/img_insert_car_licence_front" />
@@ -200,6 +190,7 @@
         app:layout_constraintBottom_toBottomOf="@id/img_licence_front"
         android:scaleType="center"
         android:layout_margin="@dimen/_5sdp"
+        android:visibility="gone"
         />
 
     <ImageView
@@ -212,6 +203,7 @@
         app:layout_constraintBottom_toBottomOf="@id/img_licence_front"
         android:scaleType="center"
         android:layout_margin="@dimen/_5sdp"
+        android:visibility="gone"
         />
 
     <ImageView
@@ -219,12 +211,11 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_100sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_5sdp"
         android:background="@drawable/dotted_background"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraint"
-        app:layout_constraintWidth_percent=".46" />
+        app:layout_constraintWidth_percent=".48" />
 
     <ImageView
         android:id="@+id/img_insert_car_licence_back"
@@ -244,52 +235,13 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/dm_sans"
         android:text="@string/car_licence_back"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_11sdp"
         app:layout_constraintEnd_toEndOf="@id/img_insert_car_licence_back"
         app:layout_constraintStart_toStartOf="@id/img_insert_car_licence_back"
         app:layout_constraintTop_toBottomOf="@id/img_insert_car_licence_back" />
 
-    <EditText
-        android:id="@+id/editText_car_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:backgroundTint="@color/hint_color"
-        android:hint="@string/car_number"
-        android:inputType="number"
-        android:paddingVertical="@dimen/_15sdp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_15sdp"
-        android:textColorHint="@color/hint_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_licence_front" />
 
-    <Spinner
-        android:id="@+id/spinner_car_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        style="@style/Widget.AppCompat.EditText"
-        app:layout_constraintTop_toBottomOf="@id/editText_car_number"
-        android:backgroundTint="@color/hint_color"
-        tools:listitem="@layout/spinner_item"
-        />
-
-    <Spinner
-        android:id="@+id/spinner_car_model"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        style="@style/Widget.AppCompat.EditText"
-        app:layout_constraintTop_toBottomOf="@id/spinner_car_color"
-        android:backgroundTint="@color/hint_color"
-        tools:listitem="@layout/spinner_item"
-
-        />
     <ImageView
         android:id="@+id/img_delete_back"
         android:layout_width="wrap_content"
@@ -300,6 +252,7 @@
         app:layout_constraintBottom_toBottomOf="@id/img_licence_back"
         android:scaleType="center"
         android:layout_margin="@dimen/_5sdp"
+        android:visibility="gone"
         />
 
     <ImageView
@@ -312,10 +265,11 @@
         app:layout_constraintBottom_toBottomOf="@id/img_licence_back"
         android:scaleType="center"
         android:layout_margin="@dimen/_5sdp"
+        android:visibility="gone"
         />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/_5sdp"
@@ -324,9 +278,12 @@
         android:textAllCaps="false"
         android:textSize="@dimen/_15ssp"
         app:cornerRadius="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_licence_front"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/main_color"
         />
 
 

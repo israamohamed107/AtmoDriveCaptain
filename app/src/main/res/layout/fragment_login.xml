@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/map_view"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.auth.LoginFragment">
+    tools:context=".auth.presentation.fragments.LoginFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,20 +29,21 @@
             android:src="@drawable/logo_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+             />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/txt_welcome_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_80sdp"
             android:text="@string/welcome_back"
             android:textColor="@color/white"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/_18sdp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_logo" />
+            app:layout_constraintBottom_toTopOf="@id/textView6"
+            />
 
 
         <TextView
@@ -52,57 +53,64 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:text="@string/enter_mobile_number_and_password_to_continue"
             android:textColor="@color/white"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="@dimen/_13sdp"
             android:fontFamily="@font/dm_sans"
+            android:layout_marginTop="@dimen/_5sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView5" />
+            app:layout_constraintBottom_toTopOf="@id/editText_phone"
+            android:layout_marginBottom="@dimen/_10sdp"
+            />
 
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/editText_phone"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/edit_text_background"
-            android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/_5sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:backgroundTint="@color/edTxtBackground"
+            android:gravity="center"
+            android:hint="@string/phone_hint"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/hint_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView6">
+            app:layout_constraintBottom_toTopOf="@id/editText_otp"
+            android:background="@drawable/edit_text_background"
+            android:textSize="@dimen/_15sdp"
+            android:fontFamily="@font/dm_sans"
 
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/countryCodeHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                app:ccp_autoDetectCountry="true"
-                app:ccp_showNameCode="false" />
+            />
 
-            <EditText
-                android:id="@+id/editText_phone"
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:backgroundTint="@color/white"
-                android:hint="@string/phone_hint"
-                android:inputType="phone"
-                android:maxLength="10"
-                android:padding="@dimen/_10sdp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/hint_color" />
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/countryCodeHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/editText_phone"
+            app:layout_constraintStart_toStartOf="@id/editText_phone"
+            app:layout_constraintBottom_toBottomOf="@id/editText_phone"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_showNameCode="false"
+            app:ccp_contentColor="@color/textColor"
+            app:ccpDialog_textColor="@color/textColor"
+            app:ccpDialog_backgroundColor="@color/backgroundColor"
+            app:ccp_textSize="@dimen/_15sdp"
+            />
 
             <TextView
-                android:id="@+id/txt_send"
+                android:id="@+id/txt_send_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
+                app:layout_constraintTop_toTopOf="@id/editText_phone"
+                app:layout_constraintEnd_toEndOf="@id/editText_phone"
+                app:layout_constraintBottom_toBottomOf="@id/editText_phone"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:text="@string/send_code"
-                android:layout_marginHorizontal="@dimen/_5sdp"
                 android:textColor="@color/main_color"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/_12sdp" />
 
-        </LinearLayout>
 
         <EditText
             android:id="@+id/editText_otp"
@@ -111,73 +119,67 @@
             android:layout_marginVertical="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:background="@drawable/edit_text_background"
+            android:backgroundTint="@color/edTxtBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintBottom_toTopOf="@id/btn_continue"
             android:hint="@string/otp_code"
             android:paddingHorizontal="@dimen/_5sdp"
             android:paddingStart="@dimen/_10sdp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/hint_color"
+            android:maxLength="4"
+            android:inputType="number"
+            android:textSize="@dimen/_15sdp"
+            android:fontFamily="@font/dm_sans"
             />
 
         <TextView
+            android:id="@+id/txt_resend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/editText_otp"
             app:layout_constraintBottom_toBottomOf="@id/editText_otp"
-            app:layout_constraintEnd_toEndOf="@id/editText_otp"
-            android:text="Resend"
+            app:layout_constraintEnd_toStartOf="@id/txt_counter"
+            android:text="@string/resend"
             android:textColor="@color/main_color"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:textSize="@dimen/_13ssp"
-            />
+            android:textSize="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:elevation="@dimen/_5sdp"
-            android:padding="@dimen/_10sdp"
-            android:text="@string/login"
-            android:textAllCaps="false"
-            android:textSize="@dimen/_15ssp"
-            app:cornerRadius="@dimen/_5sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_otp"
-            android:layout_marginVertical="@dimen/_10sdp"
             />
 
         <TextView
-            android:id="@+id/txt_do_not_have_acc"
+            android:id="@+id/txt_counter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/don_t_have_a_captain_account"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/btn_login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textSize="@dimen/_13ssp"
-            android:layout_margin="@dimen/_10sdp"
+            android:textColor="@color/hint_color"
+            android:text="@string/counter"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/txt_resend"
+            app:layout_constraintBottom_toBottomOf="@id/txt_resend"
+            app:layout_constraintEnd_toEndOf="@id/editText_otp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:visibility="gone"
             />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_create_account"
+            android:id="@+id/btn_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:elevation="@dimen/_5sdp"
             android:padding="@dimen/_10sdp"
-            android:text="@string/create_account"
+            android:text="@string/continue_"
             android:textAllCaps="false"
-            android:textSize="@dimen/_15ssp"
+            android:textSize="@dimen/_15sdp"
             app:cornerRadius="@dimen/_5sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_do_not_have_acc"
-            android:layout_marginVertical="@dimen/_10sdp"
-            android:backgroundTint="@color/orange"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:backgroundTint="@color/main_color"
+            android:textColor="@color/white"
             />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

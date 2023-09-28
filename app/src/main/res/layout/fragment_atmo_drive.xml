@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.AtmoDriveFragment"
+    tools:context=".home.AtmoDriveFragment"
     android:background="@color/atmoColor"
     >
 
@@ -121,7 +121,7 @@
         android:textSize="@dimen/_13ssp"
         android:fontFamily="@font/dm_sans"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        android:padding="@dimen/_13sdp"
+        android:padding="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/backgroundColor"
         android:textColor="@color/hint_color"
@@ -136,10 +136,10 @@
         android:textSize="@dimen/_13ssp"
         android:fontFamily="@font/dm_sans"
         app:layout_constraintTop_toBottomOf="@+id/txt_acc_info"
-        android:padding="@dimen/_13sdp"
+        android:padding="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/backgroundColor"
-        android:textColor="@color/textColor"
+        android:textColor="@color/secondary_color"
         android:drawableEnd="@drawable/baseline_navigate"
         />
 
@@ -152,10 +152,10 @@
         android:textSize="@dimen/_13ssp"
         android:fontFamily="@font/dm_sans"
         app:layout_constraintTop_toBottomOf="@+id/txt_trips_history"
-        android:padding="@dimen/_13sdp"
+        android:padding="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/backgroundColor"
-        android:textColor="@color/textColor"
+        android:textColor="@color/secondary_color"
         android:drawableEnd="@drawable/baseline_navigate"
         />
 
@@ -167,10 +167,10 @@
         android:textSize="@dimen/_13ssp"
         android:fontFamily="@font/dm_sans"
         app:layout_constraintTop_toBottomOf="@+id/txt_settings"
-        android:padding="@dimen/_13sdp"
+        android:padding="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/backgroundColor"
-        android:textColor="@color/textColor"
+        android:textColor="@color/secondary_color"
         />
 
     <TextView
@@ -196,10 +196,10 @@
         android:textSize="@dimen/_13ssp"
         android:fontFamily="@font/dm_sans"
         app:layout_constraintTop_toBottomOf="@+id/txt_language"
-        android:padding="@dimen/_13sdp"
+        android:padding="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/backgroundColor"
-        android:textColor="@color/textColor"
+        android:textColor="@color/secondary_color"
         android:drawableEnd="@drawable/baseline_navigate"
         />
 
@@ -219,7 +219,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_contact_us"
-        app:layout_constraintWidth_percent=".35"
+        app:layout_constraintWidth_percent=".3"
         app:strokeColor="@color/red"
         app:strokeWidth="1dp"
         />

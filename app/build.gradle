@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -17,6 +19,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        multiDexEnabled true
+//        vectorDrawables.useSupportLibrary = true
+
     }
 
     buildTypes {
@@ -39,8 +44,9 @@ android {
 
 dependencies {
 
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     def nav_version = "2.5.3"
+    def okhttp3Version = '4.5.0'
+    def retrofitVersion = '2.9.0'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -59,10 +65,39 @@ dependencies {
 
     implementation 'io.github.chaosleung:pinview:1.4.4'
 
+    // Coroutines
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
+    //hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+
     // navigation Kotlin
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
+
+
+    // Retrofit gson converter
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
     implementation 'com.google.android.material:material:1.9.0'
 
+    //image picker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+}
+kapt {
+    correctErrorTypes true
 }
