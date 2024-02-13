@@ -2,13 +2,11 @@ package com.israa.atmodrive.auth.data.datasource.remote
 
 import com.israa.atmodrive.auth.data.datasource.mapper.asDomain
 import com.israa.atmodrivecaptain.auth.data.datasource.remote.ImageApiService
-import com.israa.atmodrivecaptain.auth.data.model.CheckCodeResponse
 import com.israa.atmodrivecaptain.auth.data.model.DeleteImageResponse
 import com.israa.atmodrivecaptain.auth.data.model.DeleteModel
-import com.israa.atmodrivecaptain.auth.data.model.RegisterCaptainResponse
 import com.israa.atmodrivecaptain.auth.data.model.SendCodeResponse
 import com.israa.atmodrivecaptain.auth.data.model.UploadImageResponse
-import com.israa.atmodrivecaptain.auth.domain.model.CheckCode
+import com.israa.atmodrivecaptain.auth.domain.model.CaptainDetails
 import com.israa.atmodrivecaptain.auth.domain.model.RegisterCaptain
 import com.israa.atmodrivecaptain.utils.explain
 import okhttp3.MultipartBody
@@ -38,7 +36,7 @@ class RemoteDataSource @Inject constructor(
         mobile: String,
         verificationCode: String,
         deviceToken: String
-    ): ResponseState<CheckCode> {
+    ): ResponseState<CaptainDetails> {
         return try {
             val response = ResponseState.Success(
                 authApiService.checkCode(
@@ -50,7 +48,7 @@ class RemoteDataSource @Inject constructor(
             if (response.data.status)
                 ResponseState.Success(response.data.asDomain())
             else
-                ResponseState.Failure(response.data.message!!)
+                ResponseState.Failure(response.data.message)
         } catch (e: Exception) {
             e.explain()
 

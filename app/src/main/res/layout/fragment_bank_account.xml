@@ -10,6 +10,20 @@
     >
 
 
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/dm_sans"
+        android:paddingBottom="@dimen/_5sdp"
+        android:text="@string/create_account"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_step"
@@ -17,13 +31,13 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/dm_sans"
         android:paddingBottom="@dimen/_10sdp"
-        android:paddingStart="@dimen/_15sdp"
         android:text="@string/step_3_bank_account"
-        android:textSize="@dimen/_13ssp"
+        android:textSize="@dimen/_13sdp"
         android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="@id/text_title"
+        app:layout_constraintTop_toBottomOf="@id/text_title" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -51,7 +65,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
         android:backgroundTint="@color/hint_color"
-        android:inputType="text"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+        android:inputType="textFilter"
         android:textSize="@dimen/_13sdp"
         />
     <EditText
@@ -59,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:hint="Account personal name"
+        android:hint="@string/account_personal_name"
         android:paddingVertical="@dimen/_10sdp"
         android:textColorHint="@color/hint_color"
         android:textColor="@color/textColor"
@@ -67,7 +82,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_bank_name"
         android:backgroundTint="@color/hint_color"
-        android:inputType="text"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+        android:inputType="textFilter"
         android:textSize="@dimen/_13sdp"
         />
     <EditText
@@ -75,14 +91,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:hint="Account number"
+        android:hint="@string/account_number"
         android:textColorHint="@color/hint_color"
         android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_account_personal_name"
         android:backgroundTint="@color/hint_color"
-        android:inputType="text"
+        android:digits="1234567890"
+        android:inputType="textFilter"
         android:paddingVertical="@dimen/_10sdp"
         android:textSize="@dimen/_13sdp"
 
@@ -92,14 +109,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:hint="IBAN number"
+        android:hint="@string/iban_number"
         android:textColorHint="@color/hint_color"
         android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_account_number"
         android:backgroundTint="@color/hint_color"
-        android:inputType="text"
+        android:digits="EG1234567890"
+        android:inputType="textFilter"
+        android:maxLength="24"
         android:paddingVertical="@dimen/_10sdp"
         android:textSize="@dimen/_13sdp"
         />
@@ -112,7 +131,7 @@
         android:padding="@dimen/_10sdp"
         android:text="@string/submit"
         android:textAllCaps="false"
-        android:textSize="@dimen/_15ssp"
+        android:textSize="@dimen/_15sdp"
         app:cornerRadius="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +149,7 @@
         android:padding="@dimen/_10sdp"
         android:text="@string/skip"
         android:textAllCaps="false"
-        android:textSize="@dimen/_15ssp"
+        android:textSize="@dimen/_15sdp"
         app:cornerRadius="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +168,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:text="@string/by_continue_you_agree_to_atmodrive_s"
         android:textColor="@color/textColor"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_skip"
         />
@@ -162,7 +181,7 @@
         android:paddingHorizontal="@dimen/_10sdp"
         android:text="@string/privacy_policy"
         android:textColor="@color/textColor"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_terms_and_conditions"
         />

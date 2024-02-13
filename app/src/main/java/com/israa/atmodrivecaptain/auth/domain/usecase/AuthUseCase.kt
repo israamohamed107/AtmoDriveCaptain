@@ -6,7 +6,7 @@ import com.israa.atmodrivecaptain.auth.data.model.DeleteModel
 import com.israa.atmodrivecaptain.auth.data.model.SendCodeResponse
 import com.israa.atmodrivecaptain.auth.data.model.UploadImageResponse
 
-import com.israa.atmodrivecaptain.auth.domain.model.CheckCode
+import com.israa.atmodrivecaptain.auth.domain.model.CaptainDetails
 import com.israa.atmodrivecaptain.auth.domain.model.RegisterCaptain
 import com.israa.atmodrivecaptain.auth.domain.repo.IAuthRepo
 import okhttp3.MultipartBody
@@ -22,7 +22,7 @@ class AuthUseCase @Inject constructor(val iRepo: IAuthRepo) : IAuthUseCase {
         mobile: String,
         verificationCode: String,
         deviceToken: String
-    ): ResponseState<CheckCode> =
+    ): ResponseState<CaptainDetails> =
         iRepo.checkCode(mobile, verificationCode, deviceToken)
 
 
@@ -67,7 +67,7 @@ class AuthUseCase @Inject constructor(val iRepo: IAuthRepo) : IAuthUseCase {
         vehicleFrontSeat: String?,
         vehicleBackSeat: String?,
         vehicleLicenseFront: String?,
-        vehicleLicenseBack: String?
+        vehicleLicenseBack: String?,
     ): ResponseState<RegisterCaptain> =
         iRepo.registerVehicle(
             vehicleFront,
@@ -77,7 +77,7 @@ class AuthUseCase @Inject constructor(val iRepo: IAuthRepo) : IAuthUseCase {
             vehicleFrontSeat,
             vehicleBackSeat,
             vehicleLicenseFront,
-            vehicleLicenseBack
+            vehicleLicenseBack,
         )
 
     override suspend fun registerBankAccount(

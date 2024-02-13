@@ -70,6 +70,7 @@
             android:backgroundTint="@color/edTxtBackground"
             android:gravity="center"
             android:hint="@string/phone_hint"
+            android:digits="1234567890"
             android:inputType="phone"
             android:maxLength="10"
             android:padding="@dimen/_10sdp"

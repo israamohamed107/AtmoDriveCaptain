@@ -1,5 +1,7 @@
 package com.israa.atmodrivecaptain.auth.presentation.di
 
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.israa.atmodrive.auth.data.datasource.remote.AuthApiService
 import com.israa.atmodrive.auth.data.datasource.remote.RemoteDataSource
 import com.israa.atmodrive.auth.data.repo.AuthRepo
@@ -7,6 +9,7 @@ import com.israa.atmodrive.auth.domain.usecase.AuthUseCase
 import com.israa.atmodrive.auth.domain.usecase.IAuthUseCase
 import com.israa.atmodrivecaptain.auth.data.datasource.remote.ImageApiService
 import com.israa.atmodrivecaptain.auth.domain.repo.IAuthRepo
+import com.israa.atmodrivecaptain.home.data.datasource.remote.IHomeApiServices
 import com.israa.atmodrivecaptain.utils.BASE_URL_CAPTAIN
 import com.israa.atmodrivecaptain.utils.BASE_URL_IMAGE
 import com.israa.atmodrivecaptain.utils.CAPTAIN
@@ -22,6 +25,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
@@ -30,7 +34,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides
-    @Singleton
     fun getOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(50, TimeUnit.SECONDS)
         .writeTimeout(150, TimeUnit.SECONDS)
@@ -43,14 +46,11 @@ object AppModule {
                 val originalRequest = chain.request()
                 val originalUrl = originalRequest.url
                 val url = originalUrl.newBuilder().build()
-//                var token:String? = null
-//                runBlocking {
-//                    token = sharedPreferences.getToken()
-//                }
+//
                 val requestBuilder = originalRequest.newBuilder().url(url)
                     .addHeader("Accept", "application/json")
                     .addHeader(
-                        "Authorization", "Bearer ${MySharedPreference.getUserToken()}"
+                        "Authorization", "Bearer ${MySharedPreference.getString(MySharedPreference.PreferencesKeys.REMEMBER_TOKEN)}"
                     )
                 val request = requestBuilder.build()
                 val response = chain.proceed(request) // this fun make the request
@@ -63,7 +63,6 @@ object AppModule {
 
     @Named(CAPTAIN)
     @Provides
-    @Singleton
     fun getRetrofitForCaptain(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
@@ -72,11 +71,13 @@ object AppModule {
 
     @Named(IMAGE)
     @Provides
-    @Singleton
     fun getRetrofitForImage(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .baseUrl(BASE_URL_IMAGE)
         .build()
+
+    @Provides
+    fun getDatabaseRef():DatabaseReference = FirebaseDatabase.getInstance().reference
 
 }

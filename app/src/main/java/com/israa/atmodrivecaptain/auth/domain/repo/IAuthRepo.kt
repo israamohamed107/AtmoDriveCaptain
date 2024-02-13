@@ -5,7 +5,7 @@ import com.israa.atmodrivecaptain.auth.data.model.DeleteImageResponse
 import com.israa.atmodrivecaptain.auth.data.model.DeleteModel
 import com.israa.atmodrivecaptain.auth.data.model.SendCodeResponse
 import com.israa.atmodrivecaptain.auth.data.model.UploadImageResponse
-import com.israa.atmodrivecaptain.auth.domain.model.CheckCode
+import com.israa.atmodrivecaptain.auth.domain.model.CaptainDetails
 import com.israa.atmodrivecaptain.auth.domain.model.RegisterCaptain
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -18,7 +18,7 @@ interface IAuthRepo {
         mobile: String,
         verificationCode: String,
         deviceToken: String
-    ): ResponseState<CheckCode>
+    ): ResponseState<CaptainDetails>
 
     suspend fun registerCaptain(
         mobile: String,
@@ -49,7 +49,7 @@ interface IAuthRepo {
         vehicleFrontSeat:String?,
         vehicleBackSeat:String?,
         vehicleLicenseFront:String?,
-        vehicleLicenseBack:String?
+        vehicleLicenseBack:String?,
     ): ResponseState<RegisterCaptain>
 
      suspend fun registerBankAccount(

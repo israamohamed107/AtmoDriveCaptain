@@ -12,18 +12,41 @@
 
 
     <TextView
+        android:id="@+id/text_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/dm_sans"
+        android:paddingBottom="@dimen/_5sdp"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:text="@string/create_account"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_back"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/baseline_arrow_back"
+        android:background="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
         android:id="@+id/text_step"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/dm_sans"
         android:paddingBottom="@dimen/_10sdp"
-        android:paddingStart="@dimen/_15sdp"
+        android:paddingHorizontal="@dimen/_10sdp"
         android:text="@string/step_1_personal_information"
-        android:textSize="@dimen/_13ssp"
+        android:textSize="@dimen/_13sdp"
         android:textColor="@color/textColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/text_title"
+        app:layout_constraintTop_toBottomOf="@id/text_title" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -265,7 +288,7 @@
         android:id="@+id/txt_add_id_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/id_front"
+        android:text="@string/id_back"
         android:textColor="@color/textColor"
         android:textSize="@dimen/_11sdp"
 
@@ -372,6 +395,7 @@
         app:layout_constraintStart_toStartOf="@id/img_licence_back"
         app:layout_constraintTop_toBottomOf="@id/img_insert_licence_back"
         android:textSize="@dimen/_11sdp"
+        android:gravity="center"
 
         />
 
@@ -472,6 +496,7 @@
         android:layout_height="wrap_content"
         android:text="@string/licence_front"
         android:textColor="@color/textColor"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="@id/img_licence_front"
         app:layout_constraintStart_toStartOf="@id/img_licence_front"
         app:layout_constraintTop_toBottomOf="@id/img_insert_licence_front"
@@ -544,14 +569,14 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_next"
+        android:id="@+id/btn_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/_5sdp"
         android:padding="@dimen/_10sdp"
-        android:text="@string/next"
+        android:text="@string/submit_and_continue"
         android:textAllCaps="false"
-        android:textSize="@dimen/_15ssp"
+        android:textSize="@dimen/_13sdp"
         app:cornerRadius="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

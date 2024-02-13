@@ -1,17 +1,13 @@
 package com.israa.atmodrive.auth.data.datasource.remote
 
-import com.israa.atmodrivecaptain.auth.data.model.CheckCodeResponse
 import com.israa.atmodrivecaptain.auth.data.model.DeleteImageResponse
 import com.israa.atmodrivecaptain.auth.data.model.DeleteModel
-import com.israa.atmodrivecaptain.auth.data.model.RegisterCaptainResponse
 import com.israa.atmodrivecaptain.auth.data.model.SendCodeResponse
 import com.israa.atmodrivecaptain.auth.data.model.UploadImageResponse
-import com.israa.atmodrivecaptain.auth.domain.model.CheckCode
+import com.israa.atmodrivecaptain.auth.domain.model.CaptainDetails
 import com.israa.atmodrivecaptain.auth.domain.model.RegisterCaptain
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Field
-import retrofit2.http.Part
 
 interface IRemoteDataSource {
     suspend fun sendCode(mobile: String): ResponseState<SendCodeResponse>
@@ -19,7 +15,7 @@ interface IRemoteDataSource {
         mobile: String,
         verificationCode: String,
         deviceToken: String
-    ): ResponseState<CheckCode>
+    ): ResponseState<CaptainDetails>
 
     suspend fun registerCaptain(
         mobile: String,
@@ -42,7 +38,7 @@ interface IRemoteDataSource {
         vehicleFrontSeat:String?,
         vehicleBackSeat:String?,
         vehicleLicenseFront:String?,
-        vehicleLicenseBack:String?
+        vehicleLicenseBack:String?,
     ): ResponseState<RegisterCaptain>
 
 

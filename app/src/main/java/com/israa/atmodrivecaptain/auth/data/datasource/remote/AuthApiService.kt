@@ -53,7 +53,7 @@ interface AuthApiService {
         @Field("vehicle_front_seat") vehicleFrontSeat:String?,
         @Field("vehicle_back_seat") vehicleBackSeat:String?,
         @Field("vehicle_license_front") vehicleLicenseFront:String?,
-        @Field("vehicle_license_back") vehicleLicenseBack:String?
+        @Field("vehicle_license_back") vehicleLicenseBack:String?,
         ):RegisterCaptainResponse
 
     @POST(REGISTER_BANK_ACCOUNT)
@@ -64,6 +64,7 @@ interface AuthApiService {
         @Field("account_name") accountName: String?,
         @Field("account_number") accountNumber: String?
     ): RegisterCaptainResponse
+
 
 
 }

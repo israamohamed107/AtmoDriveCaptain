@@ -2,8 +2,7 @@ package com.israa.atmodrivecaptain.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.israa.atmodrivecaptain.auth.domain.model.CheckCode
-import com.israa.atmodrivecaptain.auth.domain.model.RegisterCaptain
+import com.israa.atmodrivecaptain.auth.domain.model.CaptainDetails
 
 object MySharedPreference {
     private var mAppContext: Context? = null
@@ -18,76 +17,63 @@ object MySharedPreference {
         )
     }
 
-    fun setCaptainInfo(captain : RegisterCaptain){
+    fun setCaptainInfo(captain: CaptainDetails) {
 
         getSharedPreferences().edit().apply {
-            putString(PreferencesKeys.REMEMBER_TOKEN,captain.rememberToken)
-            putString(PreferencesKeys.EMAIL,captain.email)
-            putInt(PreferencesKeys.IS_DARK_MODE,captain.isDarkMode)
-            putInt(PreferencesKeys.STATUS,captain.status)
-            putInt(PreferencesKeys.REGISTER_STEP,captain.registerStep)
-            putString(PreferencesKeys.MOBILE,captain.mobile)
-            putString(PreferencesKeys.CAPTAIN_CODE,captain.captainCode)
-            putString(PreferencesKeys.LANG,captain.lang)
-            null
+            putString(PreferencesKeys.REMEMBER_TOKEN, captain.rememberToken)
+            putString(PreferencesKeys.EMAIL, captain.email)
+            putInt(PreferencesKeys.IS_DARK_MODE, captain.isDarkMode!!)
+            putInt(PreferencesKeys.STATUS, captain.status!!)
+            putInt(PreferencesKeys.REGISTER_STEP, captain.registerStep!!)
+            putString(PreferencesKeys.MOBILE, captain.mobile)
+            putString(PreferencesKeys.CAPTAIN_CODE, captain.captainCode)
+            putString(PreferencesKeys.LANG, captain.lang)
+            putString(PreferencesKeys.ID, captain.id.toString())
+            putBoolean(PreferencesKeys.IS_ACTIVE,true)
 
         }.apply()
     }
 
-    fun getCaptain():RegisterCaptain{
-        getSharedPreferences().apply {
-            return RegisterCaptain(
-                getString(PreferencesKeys.AVATAR,null),
-                getString(PreferencesKeys.CAPTAIN_CODE,null),
-                null,
-                getString(PreferencesKeys.FULL_NAME,null),
-                null,
-                getInt(PreferencesKeys.IS_ACTIVE,0),
-                getInt(PreferencesKeys.IS_DARK_MODE,0),
-                getString(PreferencesKeys.LANG,null),
-                getString(PreferencesKeys.MOBILE,null),
-                getString(PreferencesKeys.NATIONALITY,null),
-                getInt(PreferencesKeys.REGISTER_STEP,0),
-                getString(PreferencesKeys.REMEMBER_TOKEN,null),
-                getInt(PreferencesKeys.STATUS,0)
-            )
-        }
-
+    fun clear(){
+        getSharedPreferences().edit().clear().apply()
     }
 
-    fun setIsNew(isNew:Boolean){
-        getSharedPreferences().edit().putBoolean(PreferencesKeys.IS_NEW,isNew).apply()
+    fun putString(key: String, value: String) {
+        getSharedPreferences().edit().putString(key, value).apply()
     }
-    fun getIsNew():Boolean{
-        return getSharedPreferences().getBoolean(PreferencesKeys.IS_NEW, true)
-    }
-    fun setVehicleInfo(captain : CheckCode){
 
+    fun getString(key: String): String? {
+        return getSharedPreferences().getString(key, "")
     }
-    fun setUserToken(token:String){
-        getSharedPreferences().edit().putString(PreferencesKeys.REMEMBER_TOKEN,token).apply()
+
+    fun putBoolean(key: String, value: Boolean) {
+        getSharedPreferences().edit().putBoolean(key, value).apply()
     }
-    fun getUserToken(): String? {
-        return getSharedPreferences().getString(PreferencesKeys.REMEMBER_TOKEN, null)
+
+    fun getBoolean(key: String): Boolean {
+        return getSharedPreferences().getBoolean(key, false)
     }
-    private object PreferencesKeys {
-        val SHARED_PREFERENCES_NAME = "user"
-        val REMEMBER_TOKEN = "rememberToken"
-        val IS_NEW = "isNew"
-        val AVATAR = "avatar"
-        val EMAIL = "email"
-        val FULL_NAME = "fullName"
-        val IS_DARK_MODE = "isDarkMode"
-        val LANG = "lang"
-        val MOBILE = "mobile"
-        val CAPTAIN_CODE = "captainCode"
-        val RATE = "rate"
-        val SHAKE_PHONE = "shakePhone"
-        val STATUS = "status"
-        val REGISTER_STEP = "registerStep"
-        val IS_ACTIVE = "isActive"
-        val GENDER = "gender"
-        val NATIONALITY = "nationality"
+
+    object PreferencesKeys {
+        const val SHARED_PREFERENCES_NAME = "user"
+        const val REMEMBER_TOKEN = "rememberToken"
+        const val IS_NEW = "isNew"
+        const val AVATAR = "avatar"
+        const val EMAIL = "email"
+        const val FULL_NAME = "fullName"
+        const val IS_DARK_MODE = "isDarkMode"
+        const val LANG = "lang"
+        const val MOBILE = "mobile"
+        const val CAPTAIN_CODE = "captainCode"
+        const val RATE = "rate"
+        const val SHAKE_PHONE = "shakePhone"
+        const val STATUS = "status"
+        const val REGISTER_STEP = "registerStep"
+        const val IS_ACTIVE = "isActive"
+        const val GENDER = "gender"
+        const val NATIONALITY = "nationality"
+        const val ID = "id"
+        const val AVAILABILITY = "availability"
 
     }
 

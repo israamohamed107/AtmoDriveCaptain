@@ -13,6 +13,16 @@
         <action
             android:id="@+id/action_loginFragment_to_personalInfoFragment"
             app:destination="@id/personalInformationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_vehicleInformationFragment"
+            app:destination="@id/vehicleInformationFragment"
+            app:popUpTo="@id/nav_auth"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_bankAccountFragment"
+            app:destination="@id/bankAccountFragment"
+            app:popUpTo="@id/nav_auth"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -23,12 +33,16 @@
         <action
             android:id="@+id/action_vehicleInformationFragment_to_bankAccountFragment"
             app:destination="@id/bankAccountFragment" />
+
+
     </fragment>
     <fragment
         android:id="@+id/bankAccountFragment"
         android:name="com.israa.atmodrivecaptain.auth.presentation.fragments.BankAccountFragment"
         android:label="Create account"
-        tools:layout="@layout/fragment_bank_account" />
+        tools:layout="@layout/fragment_bank_account" >
+
+    </fragment>
     <fragment
         android:id="@+id/personalInformationFragment"
         android:name="com.israa.atmodrivecaptain.auth.presentation.fragments.PersonalInformationFragment"

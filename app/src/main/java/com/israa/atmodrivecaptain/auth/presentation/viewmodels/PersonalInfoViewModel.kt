@@ -1,5 +1,6 @@
 package com.israa.atmodrivecaptain.auth.presentation.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -44,6 +45,21 @@ class PersonalInfoViewModel @Inject constructor(private val authUseCase: AuthUse
     private var _licenceBackPath : MutableLiveData<UiState?> = MutableLiveData()
     val licenceBackPath:LiveData<UiState?> = _licenceBackPath
 
+    private var _personalImageUri : MutableLiveData<Uri?> = MutableLiveData(null)
+    val personalImageUri:LiveData<Uri?> = _personalImageUri
+
+    private var _nationalIdFrontUri : MutableLiveData<Uri?> = MutableLiveData(null)
+    val nationalIdFrontUri:LiveData<Uri?> = _nationalIdFrontUri
+
+    private var _nationalIdBackUri : MutableLiveData<Uri?> = MutableLiveData()
+    val nationalIdBackUri:LiveData<Uri?> = _nationalIdBackUri
+
+    private var _licenceFrontUri : MutableLiveData<Uri?> = MutableLiveData()
+    val licenceFrontUri:LiveData<Uri?> = _licenceFrontUri
+
+    private var _licenceBackUri : MutableLiveData<Uri?> = MutableLiveData()
+    val licenceBackUri:LiveData<Uri?> = _licenceBackUri
+
     private var _registerCaptain = Channel<UiState>()
     val registerCaptain = _registerCaptain.receiveAsFlow()
 
@@ -52,7 +68,13 @@ class PersonalInfoViewModel @Inject constructor(private val authUseCase: AuthUse
 
 
      fun uploadImage(part: MultipartBody.Part, path: RequestBody , flag:Int){
-
+         when(flag){
+             PERSONAL_IMAGE_FLAG -> _personalImagePath.value = UiState.Loading
+             NATIONAL_ID_FRONT_FLAG -> _nationalIdFrontPath.value = UiState.Loading
+             NATIONAL_ID_BACK_FLAG -> _nationalIdBackPath.value = UiState.Loading
+             LICENCE_FRONT_FLAG -> _licenceFrontPath.value = UiState.Loading
+             LICENCE_BACK_FLAG -> _licenceBackPath.value = UiState.Loading
+         }
         viewModelScope.launch {
             when(val response = authUseCase.uploadImage(part,path)){
                 is ResponseState.Success ->{
@@ -65,13 +87,13 @@ class PersonalInfoViewModel @Inject constructor(private val authUseCase: AuthUse
                     }
                 }
                 is ResponseState.Failure ->{
-//                when(flag){
-//                    PERSONAL_IMAGE_FLAG -> _personalImagePath.postValue(UiState.Failure(response.error))
-//                    NATIONAL_ID_FRONT_FLAG -> _nationalIdFrontPath.postValue(UiState.Failure(response.error))
-//                    NATIONAL_ID_BACK_FLAG -> _nationalIdBackPath.postValue(UiState.Failure(response.error))
-//                    LICENCE_FRONT_FLAG -> _licenceFrontPath.postValue(UiState.Failure(response.error))
-//                    LICENCE_BACK_FLAG -> _licenceBackPath.postValue(UiState.Failure(response.error))
-//                }
+                when(flag){
+                    PERSONAL_IMAGE_FLAG -> _personalImagePath.postValue(UiState.Failure(response.error))
+                    NATIONAL_ID_FRONT_FLAG -> _nationalIdFrontPath.postValue(UiState.Failure(response.error))
+                    NATIONAL_ID_BACK_FLAG -> _nationalIdBackPath.postValue(UiState.Failure(response.error))
+                    LICENCE_FRONT_FLAG -> _licenceFrontPath.postValue(UiState.Failure(response.error))
+                    LICENCE_BACK_FLAG -> _licenceBackPath.postValue(UiState.Failure(response.error))
+                }
                 }
                 else -> {}
             }
@@ -100,29 +122,43 @@ class PersonalInfoViewModel @Inject constructor(private val authUseCase: AuthUse
       }
     }
 
+    fun setUri(uri: Uri? , flag: Int){
+        when(flag){
+            PERSONAL_IMAGE_FLAG -> _personalImageUri.value = uri
+            NATIONAL_ID_FRONT_FLAG -> _nationalIdFrontUri.value = uri
+            NATIONAL_ID_BACK_FLAG -> _nationalIdBackUri.value = uri
+            LICENCE_FRONT_FLAG -> _licenceFrontUri.value = uri
+            LICENCE_BACK_FLAG -> _licenceBackUri.value = uri
+
+        }
+    }
     fun deleteImage(path: DeleteModel, flag: Int){
 
         viewModelScope.launch {
+            setPathState(UiState.Loading,flag)
             when(val response = authUseCase.deleteImage(path)){
                 is ResponseState.Success ->{
-                    when(flag){
-                        PERSONAL_IMAGE_FLAG -> _personalImagePath.postValue(null)
-                        NATIONAL_ID_FRONT_FLAG -> _nationalIdFrontPath.postValue(null)
-                        NATIONAL_ID_BACK_FLAG -> _nationalIdBackPath.postValue(null)
-                        LICENCE_FRONT_FLAG -> _personalImagePath.postValue(null)
-                        LICENCE_BACK_FLAG -> _licenceBackPath.postValue(null)
-
-                    }
-                    _deleteImage.postValue(UiState.Success(response.data.message))
-
+                    setPathState(null,flag)
                 }
                 is ResponseState.Failure ->{
-                    _deleteImage.postValue(UiState.Failure(response.error))
-
+                    setPathState(UiState.Failure(response.error),flag)
                 }
                 else ->{}
             }
         }
 
     }
+
+    private fun setPathState(state: UiState?, flag: Int) {
+        when(flag){
+            PERSONAL_IMAGE_FLAG -> _personalImagePath.postValue(state)
+            NATIONAL_ID_FRONT_FLAG -> _nationalIdFrontPath.postValue(state)
+            NATIONAL_ID_BACK_FLAG -> _nationalIdBackPath.postValue(state)
+            LICENCE_FRONT_FLAG -> _licenceFrontPath.postValue(state)
+            LICENCE_BACK_FLAG -> _licenceBackPath.postValue(state)
+
+        }
+    }
+
+
 }

@@ -9,26 +9,25 @@ import com.israa.atmodrive.auth.data.datasource.remote.ResponseState
 import com.israa.atmodrive.auth.domain.usecase.AuthUseCase
 import com.israa.atmodrivecaptain.auth.data.model.DeleteModel
 import com.israa.atmodrivecaptain.utils.UiState
-import com.israa.atmodrivecaptain.utils.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
 class VehicleInfoViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel() {
 
     companion object {
-        const val FIRST_SIDE_FLAG = 1
-        const val SECOND_SIDE_FLAG = 2
-        const val TOP_SIDE_FLAG = 3
+        const val LEFT_SIDE_FLAG = 1
+        const val RIGHT_SIDE_FLAG = 2
         const val BACK_SIDE_FLAG = 4
         const val FRONT_SIDE_FLAG = 5
-        const val SIDE_FLAG = 6
+        const val FRONT_SEAT_FLAG = 3
+        const val BACK_SEAT_FLAG = 6
         const val VEHICLE_LICENCE_FRONT_FLAG = 7
         const val VEHICLE_LICENCE_BACK_FLAG = 8
     }
@@ -41,8 +40,8 @@ class VehicleInfoViewModel @Inject constructor(private val authUseCase: AuthUseC
     val backPath: LiveData<UiState?> = _backPath
 
 
-    private var _topPath: MutableLiveData<UiState?> = MutableLiveData(null)
-    val topPath: LiveData<UiState?> = _topPath
+    private var _frontSeatPath: MutableLiveData<UiState?> = MutableLiveData(null)
+    val frontSeatPath: LiveData<UiState?> = _frontSeatPath
 
 
     private var _rightPath: MutableLiveData<UiState?> = MutableLiveData(null)
@@ -52,8 +51,8 @@ class VehicleInfoViewModel @Inject constructor(private val authUseCase: AuthUseC
     private var _leftPath: MutableLiveData<UiState?> = MutableLiveData(null)
     val leftPath: LiveData<UiState?> = _leftPath
 
-    private var _sidePath: MutableLiveData<UiState?> = MutableLiveData(null)
-    val sidePath: LiveData<UiState?> = _sidePath
+    private var _backSeatPath: MutableLiveData<UiState?> = MutableLiveData(null)
+    val backSeatPath: LiveData<UiState?> = _backSeatPath
 
 
     private var _licenceFrontPath: MutableLiveData<UiState?> = MutableLiveData(null)
@@ -75,92 +74,72 @@ class VehicleInfoViewModel @Inject constructor(private val authUseCase: AuthUseC
     private var _backSideUri: MutableLiveData<Uri?> = MutableLiveData(null)
     val backSideUri: LiveData<Uri?> = _backSideUri
 
-    private var _topSideUri: MutableLiveData<Uri?> = MutableLiveData(null)
-    val topSideUri: LiveData<Uri?> = _topSideUri
+    private var _frontSeatUri: MutableLiveData<Uri?> = MutableLiveData(null)
+    val frontSeatUri: LiveData<Uri?> = _frontSeatUri
 
     private var _sideUri: MutableLiveData<Uri?> = MutableLiveData(null)
     val sideUri: LiveData<Uri?> = _sideUri
 
 
+    private var _licenceFrontUri: MutableLiveData<Uri?> = MutableLiveData(null)
+    val licenceFrontUri: LiveData<Uri?> = _licenceFrontUri
+
+    private var _licenceBackUri: MutableLiveData<Uri?> = MutableLiveData(null)
+    val licenceBackUri: LiveData<Uri?> = _licenceBackUri
+
     private var _registerVehicle = Channel<UiState>()
     val registerVehicle = _registerVehicle.receiveAsFlow()
 
 
-    private var _deleteImage : MutableLiveData<UiState?> = MutableLiveData()
-    val deleteImage:LiveData<UiState?> = _deleteImage
+    private var _deleteImage: MutableLiveData<UiState?> = MutableLiveData()
+    val deleteImage: LiveData<UiState?> = _deleteImage
 
     suspend fun uploadImage(part: MultipartBody.Part, path: RequestBody, flag: Int) {
-
-            val response = authUseCase.uploadImage(part, path)
-            when (response) {
+        viewModelScope.launch(Dispatchers.IO){
+            setImagesPaths(UiState.Loading,flag)
+            when (val response = authUseCase.uploadImage(part, path)) {
                 is ResponseState.Success -> {
-                    when (flag) {
-                        FIRST_SIDE_FLAG -> _leftPath.postValue(UiState.Success(response.data.data!!))
-                        SECOND_SIDE_FLAG -> _rightPath.postValue(UiState.Success(response.data.data!!))
-                        FRONT_SIDE_FLAG -> _frontPath.postValue(UiState.Success(response.data.data!!))
-                        BACK_SIDE_FLAG -> _backPath.postValue(UiState.Success(response.data.data!!))
-                        TOP_SIDE_FLAG -> _topPath.postValue(UiState.Success(response.data.data!!))
-                        SIDE_FLAG -> _sidePath.postValue(UiState.Success(response.data.data!!))
-                        VEHICLE_LICENCE_FRONT_FLAG -> _licenceFrontPath.postValue(UiState.Success(response.data.data!!))
-                        VEHICLE_LICENCE_BACK_FLAG -> _licenceBackPath.postValue(UiState.Success(response.data.data!!))
-                    }
+                    setImagesPaths(UiState.Success(response.data.data!!),flag)
 
                 }
 
                 is ResponseState.Failure -> {
-                    when (flag) {
-                        FIRST_SIDE_FLAG -> _leftPath.postValue(UiState.Failure(response.error))
-                        SECOND_SIDE_FLAG -> _rightPath.postValue(UiState.Failure(response.error))
-                        FRONT_SIDE_FLAG -> _frontPath.postValue(UiState.Failure(response.error))
-                        BACK_SIDE_FLAG -> _backPath.postValue(UiState.Failure(response.error))
-                        TOP_SIDE_FLAG -> _topPath.postValue(UiState.Failure(response.error))
-                        SIDE_FLAG -> _sidePath.postValue(UiState.Failure(response.error))
-                        VEHICLE_LICENCE_FRONT_FLAG -> _licenceFrontPath.postValue(UiState.Failure(response.error))
-                        VEHICLE_LICENCE_BACK_FLAG -> _licenceBackPath.postValue(UiState.Failure(response.error))
-                    }
+                    setImagesPaths(UiState.Failure(response.error),flag)
                 }
 
                 else -> {}
             }
         }
+    }
 
-
-    fun resetPath(flag: Int) {
+    private fun setImagesPaths(state:UiState, flag: Int) {
         when (flag) {
-            FIRST_SIDE_FLAG -> _leftPath.value = null
-            SECOND_SIDE_FLAG -> _rightPath.value = null
-            FRONT_SIDE_FLAG -> _frontPath.value = null
-            BACK_SIDE_FLAG -> _backPath.value = null
-            TOP_SIDE_FLAG -> _topPath.value = null
-            SIDE_FLAG -> _sidePath.value = null
-            VEHICLE_LICENCE_FRONT_FLAG -> _licenceFrontPath.value = null
-            VEHICLE_LICENCE_BACK_FLAG -> _licenceBackPath.value = null
+            LEFT_SIDE_FLAG -> _leftPath.postValue(state)
+            RIGHT_SIDE_FLAG -> _rightPath.postValue(state)
+            FRONT_SIDE_FLAG -> _frontPath.postValue(state)
+            BACK_SIDE_FLAG -> _backPath.postValue(state)
+            FRONT_SEAT_FLAG -> _frontSeatPath.postValue(state)
+            BACK_SEAT_FLAG -> _backSeatPath.postValue(state)
+            VEHICLE_LICENCE_FRONT_FLAG -> _licenceFrontPath.postValue(state)
+            VEHICLE_LICENCE_BACK_FLAG -> _licenceBackPath.postValue(state)
         }
     }
 
-    fun setImageUriValue(uri: Uri, flag: Int) {
+
+    fun setImageUriValue(uri: Uri?, flag: Int) {
         when (flag) {
-            FIRST_SIDE_FLAG -> _leftSideUri.value = uri
-            SECOND_SIDE_FLAG -> _rightSideUri.value = uri
+            LEFT_SIDE_FLAG -> _leftSideUri.value = uri
+            RIGHT_SIDE_FLAG -> _rightSideUri.value = uri
             FRONT_SIDE_FLAG -> _frontSideUri.value = uri
             BACK_SIDE_FLAG -> _backSideUri.value = uri
-            TOP_SIDE_FLAG -> _topSideUri.value = uri
-            SIDE_FLAG -> _sideUri.value = uri
+            FRONT_SEAT_FLAG -> _frontSeatUri.value = uri
+            BACK_SEAT_FLAG -> _sideUri.value = uri
+            VEHICLE_LICENCE_BACK_FLAG -> _licenceBackUri.value = uri
+            VEHICLE_LICENCE_FRONT_FLAG -> _licenceFrontUri.value = uri
         }
 
     }
 
-    fun resetImageUriValue(flag: Int) {
-        when (flag) {
-            FIRST_SIDE_FLAG -> _leftSideUri.value = null
-            SECOND_SIDE_FLAG -> _rightSideUri.value = null
-            FRONT_SIDE_FLAG -> _frontSideUri.value = null
-            BACK_SIDE_FLAG -> _backSideUri.value = null
-            TOP_SIDE_FLAG -> _topSideUri.value = null
-            SIDE_FLAG -> _sideUri.value = null
-        }
-
-    }
 
     fun registerVehicle(
         vehicleFront: String?,
@@ -185,63 +164,121 @@ class VehicleInfoViewModel @Inject constructor(private val authUseCase: AuthUseC
                 vehicleLicenseBack
             )
 
-            when(response){
-                is ResponseState.Success ->_registerVehicle.send(UiState.Success(response.data))
-                is ResponseState.Failure ->_registerVehicle.send(UiState.Failure(response.error))
-                else->{}
+            when (response) {
+                is ResponseState.Success -> _registerVehicle.send(UiState.Success(response.data))
+                is ResponseState.Failure -> _registerVehicle.send(UiState.Failure(response.error))
+                else -> {}
 
             }
         }
     }
 
 
-    fun deleteImage(path: DeleteModel, flag: Int){
+    fun deleteImage(path: DeleteModel, flag: Int) {
 
         viewModelScope.launch {
-            when(val response = authUseCase.deleteImage(path)){
-                is ResponseState.Success ->{
-                    when(flag){
-                        FIRST_SIDE_FLAG ->{
-                            _leftPath.postValue(null)
-                            _leftSideUri.postValue(null)
-                        }
-                        SECOND_SIDE_FLAG ->{
-                            _rightPath.postValue(null)
-                            _rightSideUri.postValue(null)
-                        }
-                        FRONT_SIDE_FLAG ->{
-                            _frontPath.postValue(null)
-                            _frontSideUri.postValue(null)
-                        }
-                        BACK_SIDE_FLAG ->{
-                            _backPath.postValue(null)
-                            _backSideUri.postValue(null)
-                        }
-                        TOP_SIDE_FLAG ->{
-                            _topPath.postValue(null)
-                            _topSideUri.postValue(null)
-                        }
-                        SIDE_FLAG ->{
-                            _sidePath.postValue(null)
-                            _sideUri.postValue(null)
-                        }
-                        VEHICLE_LICENCE_FRONT_FLAG ->{
-                            _licenceFrontPath.postValue(null)
-                        }
-                        VEHICLE_LICENCE_BACK_FLAG ->{
-                            _licenceBackPath.postValue(null)
-                        }
-                    }
-                    _deleteImage.postValue(UiState.Success(response.data.message))
+            setPath(UiState.Loading,flag)
+            when (val response = authUseCase.deleteImage(path)) {
+                is ResponseState.Success -> {
+                   setPath(null,flag)
 
                 }
-                is ResponseState.Failure ->{
-                    _deleteImage.postValue(UiState.Failure(response.error))
+
+                is ResponseState.Failure -> {
+                   setPath(UiState.Failure(response.error),flag)
 
                 }
-                else ->{}
+
+                else -> {}
             }
         }
 
     }
+
+    private fun setPath(state: UiState?, flag: Int) {
+        when (flag) {
+            LEFT_SIDE_FLAG -> {
+                _leftPath.postValue(state)
+            }
+
+            RIGHT_SIDE_FLAG -> {
+                _rightPath.postValue(state)
+            }
+
+            FRONT_SIDE_FLAG -> {
+                _frontPath.postValue(state)
+            }
+
+            BACK_SIDE_FLAG -> {
+                _backPath.postValue(state)
+            }
+
+            FRONT_SEAT_FLAG -> {
+                _frontSeatPath.postValue(state)
+            }
+
+            BACK_SEAT_FLAG -> {
+                _backSeatPath.postValue(state)
+            }
+            VEHICLE_LICENCE_FRONT_FLAG -> {
+                _licenceFrontPath.postValue(state)
+            }
+
+            VEHICLE_LICENCE_BACK_FLAG -> {
+                _licenceBackPath.postValue(state)
+            }
+        }
+    }
+
+
+    fun deleteImage(path: DeleteModel, flags: List<Int>) {
+
+        viewModelScope.launch {
+            setCarImagesPaths(UiState.Loading,flags)
+            when (val response = authUseCase.deleteImage(path)) {
+                is ResponseState.Success -> {
+                    setCarImagesPaths(null,flags)
+                }
+
+                is ResponseState.Failure -> {
+                    setCarImagesPaths(UiState.Failure(response.error),flags)
+                }
+
+                else -> {}
+            }
+        }
+
+    }
+
+    private fun setCarImagesPaths(state:UiState?, flags: List<Int>){
+        for (flag in flags){
+            when (flag) {
+                LEFT_SIDE_FLAG -> {
+                    _leftPath.postValue(state)
+                }
+
+                RIGHT_SIDE_FLAG -> {
+                    _rightPath.postValue(state)
+                }
+
+                FRONT_SIDE_FLAG -> {
+                    _frontPath.postValue(state)
+                }
+
+                BACK_SIDE_FLAG -> {
+                    _backPath.postValue(state)
+                }
+
+                FRONT_SEAT_FLAG -> {
+                    _frontSeatPath.postValue(state)
+                }
+
+                BACK_SEAT_FLAG -> {
+                    _backSeatPath.postValue(state)
+                }
+            }
+        }
+
+    }
+
 }

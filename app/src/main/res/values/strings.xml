@@ -6,15 +6,16 @@
     <string name="logo">logo</string>
     <string name="don_t_have_a_captain_account">Don’t have a captain account?</string>
     <string name="welcome_back">Welcome back,</string>
-    <string name="next">Next</string>
+    <string name="submit_and_continue">Submit and Continue</string>
     <string name="step_1_personal_information">Step 1: Personal Information</string>
     <string name="step_2_vehicle_information">Step 2: Vehicle Information</string>
-    <string name="step_3_bank_account">Step 3: Bank account</string>
+    <string name="step_3_bank_account">Step 3: Bank account  <font color='#FFB21C'>(Optional)</font></string>
     <string name="personal_photo">Personal Photo</string>
     <string name="id_front">ID (Front)</string>
+    <string name="id_back">ID (Back)</string>
     <string name="id_number">ID number</string>
     <string name="password">Password</string>
-    <string name="submit">Submit</string>
+    <string name="submit">Submit information</string>
     <string name="car_licence_front">Car licence (Front)</string>
     <string name="car_licence_back">Car licence (Back)</string>
     <string name="car_number">Car number</string>
@@ -25,7 +26,7 @@
     <string name="send_code">Send code</string>
     <string name="otp_code">OTP code</string>
     <string name="phone_hint">1234567890</string>
-    <string name="enter_mobile_number_and_password_to_continue">Enter mobile number and password to\n continue.</string>
+    <string name="enter_mobile_number_and_password_to_continue">Enter mobile number and OTP code to\n continue.</string>
     <string name="pick_car_images">Pick car images</string>
     <string name="choose_clear_images_for_your_car_from_n_those_6_sides">Choose clear images for your car from\n those 6 sides</string>
     <string name="resend"> Resend</string>
@@ -42,20 +43,34 @@
     <string name="rank">Rank</string>
     <string name="total_earnings">Total Earnings</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="new_request">New request</string>
+    <string name="new_request">New request 🎉🎉</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
     <string name="arrived">Arrived</string>
-    <string name="trip_finished">Trip finished</string>
+    <string name="trip_finished">Trip finished 🎉🎉</string>
     <string name="paid_money">paid money</string>
     <string name="car_images_6_sides">Car images (6 sides)</string>
     <string name="car_color">Car color</string>
     <string name="continue_">Continue</string>
-    <string name="licence_back">Licence(Back)</string>
-    <string name="licence_front">Licence(Front)</string>
+    <string name="licence_back">Personal Licence \n(Back)</string>
+    <string name="licence_front">Personal Licence \n(Front)</string>
     <string name="powered_by_atmosphere_ncaptain_app_ios_nv1_0_0_1">Powered by Atmosphere ©\nCaptain App - Android\nv1.0.0(1)</string>
     <string name="skip">Skip</string>
     <string name="bank_name">Bank Name</string>
     <string name="skip_and_go">Skip, and go</string>
+    <string name="you_are_offline">You are offline</string>
+    <string name="you_are_online">You are online</string>
+    <string name="on_way">On way</string>
+    <string name="cancel">Cancel</string>
+    <string name="_00">00:%1$s</string>
+    <string name="start_trip">Start trip</string>
+    <string name="finish_trip">Finish Trip</string>
+    <string name="going_to_pickup">Going to pickup</string>
+    <string name="waiting_for_passenger">Waiting for passenger</string>
+    <string name="trip_running">Trip running</string>
+    <string name="account_number">Account number</string>
+    <string name="account_personal_name">Account personal name</string>
+    <string name="iban_number">IBAN number</string>
+    <string name="atmodrive">AtmoDrive</string>
 
 </resources>

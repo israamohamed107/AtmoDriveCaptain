@@ -28,7 +28,7 @@ class RegisterBankAccountViewModel @Inject constructor(val authUseCase: AuthUseC
               val result = authUseCase.registerBankAccount(bankName, ibanNumber, accountName, accountNumber)
               when(result){
                   is ResponseState.Success -> _registerAccount.postValue(UiState.Success(result.data))
-                  is ResponseState.Failure -> _registerAccount.postValue(UiState.Success(result.error))
+                  is ResponseState.Failure -> _registerAccount.postValue(UiState.Failure(result.error))
                   else ->{}
               }
 

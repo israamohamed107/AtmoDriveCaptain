@@ -8,12 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.israa.atmodrivecaptain.auth.presentation.viewmodels.RegisterBankAccountViewModel
 import com.israa.atmodrivecaptain.databinding.FragmentBankAccountBinding
-import com.israa.atmodrivecaptain.home.HomeActivity
+import com.israa.atmodrivecaptain.home.presentation.HomeActivity
+import com.israa.atmodrivecaptain.utils.MySharedPreference
 import com.israa.atmodrivecaptain.utils.Progressbar
 import com.israa.atmodrivecaptain.utils.UiState
 import com.israa.atmodrivecaptain.utils.exhaustive
+import com.israa.atmodrivecaptain.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +27,7 @@ class BankAccountFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val registerBankAccountViewModel:RegisterBankAccountViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,23 +46,26 @@ class BankAccountFragment : Fragment() {
     }
 
     private fun onObserve() {
-        registerBankAccountViewModel.registerAccount.observe(viewLifecycleOwner){ result->
-            when(result){
-                is UiState.Success ->{
-                    Progressbar.dismiss()
-                    goToHome()
-                }
+      viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+          registerBankAccountViewModel.registerAccount.observe(viewLifecycleOwner){ result->
+              when(result){
+                  is UiState.Success ->{
+                      Progressbar.dismiss()
+                      showToast("Send Successfully")
+                      goToHome()
+                  }
 
-                is UiState.Failure ->{
-                    Progressbar.dismiss()
-                    Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
-                }
-                is UiState.Loading ->Progressbar.show(requireActivity())
+                  is UiState.Failure ->{
+                      Progressbar.dismiss()
+                      showToast(result.message)
+                  }
+                  is UiState.Loading ->Progressbar.show(requireActivity())
 
-                else ->{
-                }
-            }.exhaustive
-        }
+                  else ->{
+                  }
+              }
+          }
+      }
     }
 
     private fun onClick(){
@@ -65,21 +73,29 @@ class BankAccountFragment : Fragment() {
             btnSubmit.setOnClickListener{
                 registerBankAccountViewModel.registerBankAccount(
                     editTextBankName.text.toString(),
+                    editTextIbanNumber.text.toString(),
                     editTextAccountPersonalName.text.toString(),
                     editTextAccountNumber.text.toString(),
-                    editTextIbanNumber.text.toString()
                 )
             }
 
             btnSkip.setOnClickListener {
-                goToHome()
+                skip()
             }
         }
     }
 
+    private fun skip(){
+        if(MySharedPreference.getBoolean(MySharedPreference.PreferencesKeys.IS_ACTIVE)){
+            startActivity(Intent(requireActivity(), HomeActivity::class.java))
+            requireActivity().finish()
+        }else{
+            requireActivity().finish()
+        }
+    }
+
     private fun goToHome() {
-        startActivity(Intent(requireActivity(), HomeActivity::class.java))
-        requireActivity().finish()
+
     }
 
     override fun onDestroyView() {

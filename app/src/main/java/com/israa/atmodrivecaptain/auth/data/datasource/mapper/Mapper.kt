@@ -2,36 +2,36 @@ package com.israa.atmodrive.auth.data.datasource.mapper
 
 import com.israa.atmodrivecaptain.auth.data.model.CheckCodeResponse
 import com.israa.atmodrivecaptain.auth.data.model.RegisterCaptainResponse
-import com.israa.atmodrivecaptain.auth.domain.model.CheckCode
+import com.israa.atmodrivecaptain.auth.domain.model.CaptainDetails
 import com.israa.atmodrivecaptain.auth.domain.model.RegisterCaptain
 
 
 fun CheckCodeResponse.asDomain(
 
-): CheckCode {
+): CaptainDetails {
 
     return data.user?.let {
 
-    CheckCode(
-        data.is_new,
-        it.avatar,
-        it.email,
-        it.full_name,
-        it.is_dark_mode,
-        it.lang,
-        it.mobile,
-        it.captain_code,
-        it.rate,
-        it.remember_token,
-        it.shake_phone,
-        it.status,
-        it.register_step
+        CaptainDetails(
+            it.avatar,
+            it.captain_code,
+            it.email,
+            it.full_name,
+            it.gender,
+            it.id,
+            it.is_active,
+            it.is_dark_mode,
+            it.lang,
+            it.mobile,
+            it.register_step,
+            it.remember_token,
+            it.status
         )
     }
-        ?: CheckCode(isNew = data.is_new)
+        ?: CaptainDetails()
 }
 
-fun RegisterCaptainResponse.asDomain():RegisterCaptain{
+fun RegisterCaptainResponse.asDomain(): RegisterCaptain {
     return data?.let {
         RegisterCaptain(
             it.avatar,

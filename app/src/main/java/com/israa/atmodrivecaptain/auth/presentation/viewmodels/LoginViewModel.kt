@@ -10,6 +10,7 @@ import com.israa.atmodrive.auth.domain.usecase.AuthUseCase
 import com.israa.atmodrive.auth.domain.usecase.IAuthUseCase
 import com.israa.atmodrivecaptain.auth.data.datasource.remote.ImageApiService
 import com.israa.atmodrivecaptain.utils.IMAGE
+import com.israa.atmodrivecaptain.utils.MySharedPreference
 import com.israa.atmodrivecaptain.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -74,7 +75,12 @@ class LoginViewModel @Inject constructor(private val useCase: IAuthUseCase):View
           when(step){
               1 -> _loginEvent.send(LoginEvents.NavigateToVehicleInfo)
               2 -> _loginEvent.send(LoginEvents.NavigateToBankAccountInfo)
-              3 -> _loginEvent.send(LoginEvents.NavigateToHome)
+              3 ->{
+                  if(MySharedPreference.getBoolean(MySharedPreference.PreferencesKeys.IS_ACTIVE))
+                      _loginEvent.send(LoginEvents.NavigateToHome)
+                  else
+                  _loginEvent.send(LoginEvents.NotActive)
+              }
               else ->{
                   _loginEvent.send(LoginEvents.NavigateToPersonalInfo)
               }
@@ -87,6 +93,7 @@ class LoginViewModel @Inject constructor(private val useCase: IAuthUseCase):View
         object NavigateToVehicleInfo: LoginEvents()
         object NavigateToBankAccountInfo : LoginEvents()
         object NavigateToHome : LoginEvents()
+        object NotActive : LoginEvents()
 
     }
 

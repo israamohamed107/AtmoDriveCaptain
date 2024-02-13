@@ -6,11 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="@dimen/_5sdp"
     app:cardCornerRadius="@dimen/_10sdp"
-    tools:context=".home.requests.FinishingTripFragment">
-
+    tools:context=".home.presentation.fragments.requests.FinishingTripFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         >
 
         <TextView
@@ -22,7 +22,7 @@
             android:textStyle="bold"
             android:fontFamily="@font/dm_sans"
             android:textColor="@color/white"
-            android:textSize="@dimen/_15ssp"
+            android:textSize="@dimen/_15sdp"
             android:padding="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,24 +34,22 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/txt_title"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Israa Mohamed"
             android:textStyle="bold"
             android:textColor="@color/textColor"
-            android:textSize="@dimen/_15ssp"
+            android:textSize="@dimen/_13sdp"
             android:fontFamily="@font/dm_sans"
             android:layout_margin="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
             />
         <TextView
-            android:id="@+id/txt_trip_price"
+            android:id="@+id/txt_estimated_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="105 EGP"
             android:textColor="@color/green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/txt_passenger_name"
             android:layout_marginHorizontal="@dimen/_15sdp"
-            android:textSize="@dimen/_15ssp"
+            android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
             android:fontFamily="@font/dm_sans"
             android:layout_marginTop="@dimen/_5sdp"
@@ -61,9 +59,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cash"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_12sdp"
             android:textColor="@color/hint_color"
-            app:layout_constraintTop_toBottomOf="@id/txt_trip_price"
+            app:layout_constraintTop_toBottomOf="@id/txt_estimated_cost"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="@dimen/_15sdp"
 
@@ -86,9 +84,8 @@
             android:id="@+id/txt_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(4.0)"
             android:textColor="@color/secondary_color"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintStart_toEndOf="@id/rate_bar"
             app:layout_constraintTop_toTopOf="@id/rate_bar"
             android:paddingVertical="@dimen/_5sdp"
@@ -107,15 +104,15 @@
             android:textColorHint="@color/hint_color"
             android:backgroundTint="@color/hint_color"
             android:textColor="@color/textColor"
+            android:inputType="number"
             />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_total_price"
+            android:id="@+id/txt_real_coset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="105 EGP"
             android:textColor="@color/main_color"
             android:backgroundTint="@color/backgroundColor"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="@dimen/_13sdp"
             android:fontFamily="@font/dm_sans"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/rate_bar"
@@ -138,7 +135,7 @@
             android:text="@string/confirm"
             android:textColor="@color/white"
             android:backgroundTint="@color/green"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="@dimen/_13sdp"
             android:fontFamily="@font/dm_sans"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/txt_paid_money"
@@ -152,6 +149,18 @@
             android:layout_marginBottom="@dimen/_5sdp"
             />
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            android:visibility="gone"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

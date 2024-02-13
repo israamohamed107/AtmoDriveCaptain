@@ -1,13 +1,17 @@
 package com.israa.atmodrivecaptain.utils
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.location.Location
 import android.media.ExifInterface
 import android.net.Uri
-import android.view.View
+import android.os.Build.VERSION.SDK_INT
+import android.os.Bundle
+import android.os.Parcelable
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.israa.atmodrive.auth.data.datasource.remote.ResponseState
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -17,7 +21,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.net.SocketTimeoutException
 
 fun Exception.explain():ResponseState.Failure{
      return when (this) {
@@ -111,14 +114,27 @@ suspend fun Fragment.decodeFile(filePath: String?): Bitmap? {
  fun Fragment.pickImage(requestCode: Int) {
     ImagePicker.Companion.with(this)
         .crop()                    //Crop image(Optional), Check Customization for more option
-        .compress(1024)            //Final image size will be less than 1 MB(Optional)
+        .compress(1024)          //Final image size will be less than 1 MB(Optional)
         .maxResultSize(
             1080,
             1080
         )    //Final image resolution will be less than 1080 x 1080(Optional)
+        .cameraOnly()
         .start(requestCode)
 
+}
+fun Fragment.showToast(text:String){
+    Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
 }
 
 val <T> T.exhaustive: T
     get() = this
+
+inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
+    SDK_INT >= 33 -> getParcelable(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelable(key) as? T
+}
+inline fun Intent.getParcelable(key: String): Location? = when {
+    SDK_INT >= 33 -> getParcelableExtra(key, Location::class.java)
+    else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? Location
+}

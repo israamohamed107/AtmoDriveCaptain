@@ -9,19 +9,34 @@
     android:background="@color/backgroundColor"
     >
 
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/dm_sans"
+        android:paddingBottom="@dimen/_5sdp"
+        android:text="@string/create_account"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/text_step"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/dm_sans"
         android:paddingBottom="@dimen/_10sdp"
-        android:paddingStart="@dimen/_15sdp"
         android:text="@string/step_2_vehicle_information"
-        android:textSize="@dimen/_13ssp"
+        android:textSize="@dimen/_13sdp"
         android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_marginStart="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="@id/text_title"
+        app:layout_constraintTop_toBottomOf="@id/text_title"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -47,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@id/progressBar">
 
         <ImageView
-            android:id="@+id/img_car_side1"
+            android:id="@+id/img_left_side"
             android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
             android:scaleType="fitXY"
@@ -56,52 +71,52 @@
             app:layout_constraintWidth_percent=".33" />
 
         <ImageView
-            android:id="@+id/img_car_side2"
+            android:id="@+id/img_right_side"
             android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_car_side1"
+            app:layout_constraintTop_toBottomOf="@id/img_left_side"
             app:layout_constraintWidth_percent=".33" />
 
         <ImageView
-            android:id="@+id/img_car_side3"
+            android:id="@+id/img_front_side"
             android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
             android:scaleType="fitXY"
-            app:layout_constraintStart_toEndOf="@id/img_car_side1"
+            app:layout_constraintStart_toEndOf="@id/img_left_side"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent=".33"
 
             />
 
         <ImageView
-            android:id="@+id/img_car_side4"
+            android:id="@+id/img_back_side"
             android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
             android:scaleType="fitXY"
-            app:layout_constraintStart_toEndOf="@id/img_car_side2"
-            app:layout_constraintTop_toBottomOf="@id/img_car_side3"
+            app:layout_constraintStart_toEndOf="@id/img_right_side"
+            app:layout_constraintTop_toBottomOf="@id/img_front_side"
             app:layout_constraintWidth_percent=".33" />
 
         <ImageView
-            android:id="@+id/img_car_side5"
+            android:id="@+id/img_front_seat"
             android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
             android:scaleType="fitXY"
-            app:layout_constraintStart_toEndOf="@id/img_car_side3"
+            app:layout_constraintStart_toEndOf="@id/img_front_side"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent=".33"
 
             />
 
         <ImageView
-            android:id="@+id/img_car_side6"
+            android:id="@+id/img_back_seat"
             android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
             android:scaleType="fitXY"
-            app:layout_constraintStart_toEndOf="@id/img_car_side4"
-            app:layout_constraintTop_toBottomOf="@id/img_car_side5"
+            app:layout_constraintStart_toEndOf="@id/img_back_side"
+            app:layout_constraintTop_toBottomOf="@id/img_front_seat"
             app:layout_constraintWidth_percent=".33" />
 
 
@@ -112,10 +127,10 @@
             android:background="@drawable/circular_background"
             android:scaleType="center"
             android:src="@drawable/baseline_add_photo_alternate"
-            app:layout_constraintBottom_toBottomOf="@id/img_car_side4"
-            app:layout_constraintEnd_toEndOf="@+id/img_car_side3"
-            app:layout_constraintStart_toStartOf="@+id/img_car_side3"
-            app:layout_constraintTop_toTopOf="@+id/img_car_side3" />
+            app:layout_constraintBottom_toBottomOf="@id/img_back_side"
+            app:layout_constraintEnd_toEndOf="@+id/img_front_side"
+            app:layout_constraintStart_toStartOf="@+id/img_front_side"
+            app:layout_constraintTop_toTopOf="@+id/img_front_side" />
 
         <TextView
             android:id="@+id/txt_add_carr_photoes"
@@ -192,7 +207,19 @@
         android:layout_margin="@dimen/_5sdp"
         android:visibility="gone"
         />
-
+    <ImageView
+        android:id="@+id/img_retry_licence_front"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_licence_front"
+        app:layout_constraintEnd_toEndOf="@+id/img_licence_front"
+        app:layout_constraintStart_toStartOf="@+id/img_licence_front"
+        app:layout_constraintTop_toTopOf="@+id/img_licence_front"
+        android:visibility="gone"
+        />
     <ImageView
         android:id="@+id/img_edit_front"
         android:layout_width="wrap_content"
@@ -205,6 +232,21 @@
         android:layout_margin="@dimen/_5sdp"
         android:visibility="gone"
         />
+    <ProgressBar
+        android:id="@+id/progress_licence_front"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/light_gray"
+        android:scaleType="center"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_licence_front"
+        app:layout_constraintEnd_toEndOf="@+id/img_licence_front"
+        app:layout_constraintStart_toStartOf="@+id/img_licence_front"
+        app:layout_constraintTop_toTopOf="@+id/img_licence_front"
+        android:visibility="gone"
+        />
+
 
     <ImageView
         android:id="@+id/img_licence_back"
@@ -268,15 +310,43 @@
         android:visibility="gone"
         />
 
+    <ProgressBar
+        android:id="@+id/progress_licence_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/light_gray"
+        android:scaleType="center"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_licence_back"
+        app:layout_constraintEnd_toEndOf="@+id/img_licence_back"
+        app:layout_constraintStart_toStartOf="@+id/img_licence_back"
+        app:layout_constraintTop_toTopOf="@+id/img_licence_back"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/img_retry_licence_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circular_background"
+        android:scaleType="center"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="@id/img_licence_back"
+        app:layout_constraintEnd_toEndOf="@+id/img_licence_back"
+        app:layout_constraintStart_toStartOf="@+id/img_licence_back"
+        app:layout_constraintTop_toTopOf="@+id/img_licence_back"
+        android:visibility="gone"
+        />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/_5sdp"
         android:padding="@dimen/_10sdp"
-        android:text="@string/next"
+        android:text="@string/submit_and_continue"
         android:textAllCaps="false"
-        android:textSize="@dimen/_15ssp"
+        android:textSize="@dimen/_15sdp"
         app:cornerRadius="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"

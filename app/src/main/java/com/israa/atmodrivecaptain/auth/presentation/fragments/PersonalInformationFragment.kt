@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.israa.atmodrivecaptain.auth.data.model.DeleteModel
+import com.israa.atmodrivecaptain.auth.domain.model.RegisterCaptain
 import com.israa.atmodrivecaptain.auth.presentation.viewmodels.PersonalInfoViewModel
 import com.israa.atmodrivecaptain.auth.presentation.viewmodels.PersonalInfoViewModel.Companion.LICENCE_BACK_FLAG
 import com.israa.atmodrivecaptain.auth.presentation.viewmodels.PersonalInfoViewModel.Companion.LICENCE_FRONT_FLAG
@@ -27,13 +28,18 @@ import com.israa.atmodrivecaptain.auth.presentation.viewmodels.PersonalInfoViewM
 import com.israa.atmodrivecaptain.auth.presentation.viewmodels.PersonalInfoViewModel.Companion.NATIONAL_ID_FRONT_FLAG
 import com.israa.atmodrivecaptain.auth.presentation.viewmodels.PersonalInfoViewModel.Companion.PERSONAL_IMAGE_FLAG
 import com.israa.atmodrivecaptain.databinding.FragmentPersonalInformationBinding
+import com.israa.atmodrivecaptain.utils.FAILURE
+import com.israa.atmodrivecaptain.utils.LOADING
 import com.israa.atmodrivecaptain.utils.Progressbar
+import com.israa.atmodrivecaptain.utils.SUCCESS
 import com.israa.atmodrivecaptain.utils.UiState
 import com.israa.atmodrivecaptain.utils.exhaustive
 import com.israa.atmodrivecaptain.utils.pickImage
+import com.israa.atmodrivecaptain.utils.showToast
 import com.israa.atmodrivecaptain.utils.uploadImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -46,18 +52,23 @@ class PersonalInformationFragment : Fragment() {
     private val args: PersonalInformationFragmentArgs by navArgs()
 
 
-    var personalImgPath: String? = null
-    var idFrontPath: String? = null
-    var idBackPath: String? = null
-    var licenceFrontPath_: String? = null
-    var licenceBackPath_: String? = null
+    private var personalImgPath: String? = null
+    private var idFrontPath: String? = null
+    private var idBackPath: String? = null
+    private var licenceFrontPath: String? = null
+    private var licenceBackPath: String? = null
 
-    var personalImgUri: Uri? = null
-    var idFrontUri: Uri? = null
-    var idBackUri: Uri? = null
-    var licenceFrontUri: Uri? = null
-    var licenceBackUri: Uri? = null
+    private var personalImgUri: Uri? = null
+    private var idFrontUri: Uri? = null
+    private var idBackUri: Uri? = null
+    private var licenceFrontUri: Uri? = null
+    private var licenceBackUri: Uri? = null
 
+    private var deletePersonalImage: Boolean = false
+    private var deleteIdFront: Boolean = false
+    private var deleteIdBack: Boolean = false
+    private var deleteLicenceFront: Boolean = false
+    private var deleteLicenceBack: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -73,6 +84,8 @@ class PersonalInformationFragment : Fragment() {
 
         onClick()
         onRegisterCaptainObserve()
+        onImageUploadObserve()
+        enableSubmit()
     }
 
     private fun onRegisterCaptainObserve() {
@@ -80,19 +93,21 @@ class PersonalInformationFragment : Fragment() {
             personalInfoViewModel.registerCaptain.collect { status ->
                 when (status) {
                     is UiState.Success -> {
+                        val data = status.data as RegisterCaptain
+                        navigate(data.rememberToken!!)
                         Progressbar.dismiss()
-                        navigate()
+                        showToast("Send Successfully")
                     }
 
                     is UiState.Failure -> {
-                            Toast.makeText(requireContext(), status.message, Toast.LENGTH_SHORT)
-                                .show()
-                            Progressbar.dismiss()
+                        Toast.makeText(requireContext(), status.message, Toast.LENGTH_SHORT)
+                            .show()
+                        Progressbar.dismiss()
                     }
 
                     is UiState.Loading -> Progressbar.show(requireActivity())
 
-                    else ->{}
+                    else -> {}
 
                 }
 
@@ -101,147 +116,247 @@ class PersonalInformationFragment : Fragment() {
         }
     }
 
-    private fun navigate() {
-        findNavController().navigate(PersonalInformationFragmentDirections
-            .actionPersonalInformationFragmentToVehicleInformationFragment())
+    private fun navigate(token: String) {
+        findNavController().navigate(
+            PersonalInformationFragmentDirections
+                .actionPersonalInformationFragmentToVehicleInformationFragment()
+        )
     }
 
     private fun onImageUploadObserve() {
 
-        personalInfoViewModel.apply {
-            personalImagePath.observe(viewLifecycleOwner) { path ->
-                when (path) {
-                    is UiState.Success -> {
-                        personalImgPath = path.data.toString()
-                        binding.apply {
-                            progressPersonalPhoto.isVisible = false
-                            imgPersonalPhoto.setImageURI(personalImgUri)
-                            imgEditPersonalPhoto.isVisible = true
-                            imgDeletePersonalPhoto.isVisible = true
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            personalInfoViewModel.apply {
+
+                personalImageUri.observe(viewLifecycleOwner) { uri ->
+                    personalImgUri = uri
+                    binding.imgPersonalPhoto.setImageURI(personalImgUri)
+                }
+
+                nationalIdBackUri.observe(viewLifecycleOwner) { uri ->
+                    idBackUri = uri
+                    binding.imgIdBack.setImageURI(idBackUri)
+
+                }
+
+                nationalIdFrontUri.observe(viewLifecycleOwner) { uri ->
+                    idFrontUri = uri
+                    binding.imgIdFront.setImageURI(idFrontUri)
+
+                }
+
+                licenceFrontUri.observe(viewLifecycleOwner) { uri ->
+                    this@PersonalInformationFragment.licenceFrontUri = uri
+                    binding.imgLicenceFront.setImageURI(this@PersonalInformationFragment.licenceFrontUri)
+                }
+
+                licenceBackUri.observe(viewLifecycleOwner) { uri ->
+                    this@PersonalInformationFragment.licenceBackUri = uri
+                    binding.imgLicenceBack.setImageURI(this@PersonalInformationFragment.licenceBackUri)
+
+                }
+
+                personalImagePath.observe(viewLifecycleOwner) { path ->
+                    when (path) {
+                        is UiState.Success -> {
+                            personalImgPath = path.data.toString()
+                            binding.imgPersonalPhoto.setImageURI(personalImgUri)
+                            personalImageState(SUCCESS)
+                        }
+
+                        is UiState.Failure -> {
+                            showToast(path.message)
+                            personalImageState(FAILURE)
+
+                        }
+
+                        UiState.Loading -> {
+                            personalImageState(LOADING)
+
+                        }
+
+                        null -> {
+                            personalImgPath = null
+                            personalInfoViewModel.setUri(null, PERSONAL_IMAGE_FLAG)
+                            personalImageState(null)
+                            deletePersonalImage = false
                         }
                     }
+                    enableSubmit()
+                }
 
-                    is UiState.Failure -> {
-                        Toast.makeText(requireContext(), path.message, Toast.LENGTH_SHORT).show()
-                        binding.apply {
-                            progressPersonalPhoto.isVisible = false
-                            imgRetryPersonalPhoto.isVisible = true
+                nationalIdFrontPath.observe(viewLifecycleOwner) { path ->
+                    when (path) {
+                        is UiState.Success -> {
+                            idFrontPath = path.data.toString()
+                            binding.imgIdFront.setImageURI(idFrontUri)
+                            nationalIdFrontState(SUCCESS)
+                        }
+
+                        is UiState.Failure -> {
+                            showToast(path.message)
+                            nationalIdFrontState(FAILURE)
+                        }
+
+                        UiState.Loading -> {
+                            nationalIdFrontState(LOADING)
+                        }
+
+                        null -> {
+                            idFrontPath = null
+                            personalInfoViewModel.setUri(null, NATIONAL_ID_FRONT_FLAG)
+                            nationalIdFrontState(null)
+                            deleteIdFront = false
                         }
                     }
-                    UiState.Loading -> {
-                        binding.progressPersonalPhoto.isVisible = true
-                    }
-                    else -> {}
-                }.exhaustive
-            }
+                    enableSubmit()
+                }
 
-            nationalIdFrontPath.observe(viewLifecycleOwner) { path ->
-                when (path) {
-                    is UiState.Success -> {
-                        idFrontPath = path.data.toString()
-                        binding.apply {
-                            progressIdFront.isVisible = false
-                            imgIdFront.setImageURI(idFrontUri)
-                            imgEditIdFront.isVisible = true
-                            imgDeleteIdFront.isVisible = true
+                nationalIdBackPath.observe(viewLifecycleOwner) { path ->
+                    when (path) {
+                        is UiState.Success -> {
+                            idBackPath = path.data.toString()
+                            binding.imgIdBack.setImageURI(idBackUri)
+                            nationalIdBackState(SUCCESS)
+                        }
+
+                        is UiState.Failure -> {
+                            showToast(path.message)
+                            nationalIdBackState(FAILURE)
+                        }
+
+                        UiState.Loading -> {
+                            nationalIdBackState(LOADING)
+                        }
+
+                        null -> {
+                            idBackPath = null
+                            personalInfoViewModel.setUri(null, NATIONAL_ID_BACK_FLAG)
+                            nationalIdBackState(null)
+                            deleteIdBack = false
                         }
                     }
+                    enableSubmit()
+                }
 
-                    is UiState.Failure -> {
-                        Toast.makeText(requireContext(), path.message, Toast.LENGTH_SHORT).show()
-                        binding.apply {
-                            progressIdFront.isVisible = false
-                            imgRetryIdFront.isVisible = true
+                licenceBackPath.observe(viewLifecycleOwner) { path ->
+                    when (path) {
+                        is UiState.Success -> {
+                            this@PersonalInformationFragment.licenceBackPath = path.data.toString()
+                            binding.imgLicenceBack.setImageURI(this@PersonalInformationFragment.licenceBackUri)
+                            licenceBackState(SUCCESS)
+                        }
+
+                        is UiState.Failure -> {
+                            showToast(path.message)
+                            licenceBackState(FAILURE)
+                        }
+
+                        UiState.Loading -> {
+                            licenceBackState(LOADING)
+                        }
+
+                        null -> {
+                            this@PersonalInformationFragment.licenceBackPath = null
+                            personalInfoViewModel.setUri(null, LICENCE_BACK_FLAG)
+                            licenceBackState(null)
+                            deleteLicenceBack = false
                         }
                     }
-                    UiState.Loading -> {
-                        binding.progressIdFront.isVisible = true
-                    }
-                    else -> {}
-                }.exhaustive
-            }
+                    enableSubmit()
+                }
+                licenceFrontPath.observe(viewLifecycleOwner) { path ->
+                    when (path) {
+                        is UiState.Success -> {
+                            this@PersonalInformationFragment.licenceFrontPath = path.data.toString()
+                            binding.imgLicenceFront.setImageURI(this@PersonalInformationFragment.licenceFrontUri)
+                            licenceFrontState(SUCCESS)
+                        }
 
-            nationalIdBackPath.observe(viewLifecycleOwner) { path ->
-                when (path) {
-                    is UiState.Success -> {
-                        idBackPath = path.data.toString()
-                        binding.apply {
-                            progressIdBack.isVisible = false
-                            imgIdBack.setImageURI(idBackUri)
-                            imgEditIdBack.isVisible = true
-                            imgDeleteIdBack.isVisible = true
+                        is UiState.Failure -> {
+                            showToast(path.message)
+                            licenceFrontState(FAILURE)
+                        }
+
+                        UiState.Loading -> {
+                            licenceFrontState(LOADING)
+                        }
+
+                        null -> {
+                            this@PersonalInformationFragment.licenceFrontPath = null
+                            personalInfoViewModel.setUri(null, LICENCE_FRONT_FLAG)
+                            licenceFrontState(null)
+                            deleteLicenceFront = false
                         }
                     }
-
-                    is UiState.Failure -> {
-                        Toast.makeText(requireContext(), path.message, Toast.LENGTH_SHORT).show()
-                        binding.apply {
-                            progressIdBack.isVisible = false
-                            imgRetryIdBack.isVisible = true
-                        }
-                    }
-                    UiState.Loading -> {
-                        binding.progressIdBack.isVisible = true
-
-                    }
-                    else -> {}
-                }.exhaustive
-            }
-
-            licenceBackPath.observe(viewLifecycleOwner) { path ->
-                when (path) {
-                    is UiState.Success -> {
-                        licenceBackPath_ = path.data.toString()
-                        binding.apply {
-                            progressLicenceBack.isVisible = false
-                            imgLicenceBack.setImageURI(licenceBackUri)
-                            imgEditLicenceBack.isVisible = true
-                            imgDeleteLicenceBack.isVisible = true
-                        }
-                    }
-
-                    is UiState.Failure -> {
-                        Toast.makeText(requireContext(), path.message, Toast.LENGTH_SHORT).show()
-                        binding.apply {
-                            progressLicenceBack.isVisible = false
-                            imgRetryLicenceBack.isVisible = true
-                        }
-                    }
-                    UiState.Loading -> {
-                        binding.progressLicenceBack.isVisible = true
-
-                    }
-                    else -> {}
-                }.exhaustive
-            }
-            licenceFrontPath.observe(viewLifecycleOwner) { path ->
-                when (path) {
-                    is UiState.Success -> {
-                        licenceFrontPath_ = path.data.toString()
-                        binding.apply {
-                            progressLicenceFront.isVisible = false
-                            imgLicenceFront.setImageURI(licenceFrontUri)
-                            imgEditLicenceFront.isVisible = true
-                            imgDeleteLicenceFront.isVisible = true
-                        }
-                    }
-
-                    is UiState.Failure -> {
-                        Toast.makeText(requireContext(), path.message, Toast.LENGTH_SHORT).show()
-                        binding.apply {
-                            progressLicenceFront.isVisible = false
-                            imgRetryLicenceFront.isVisible = true
-                        }
-                    }
-                    UiState.Loading -> {
-                        binding.progressLicenceFront.isVisible = true
-                    }
-                    else -> {}
-                }.exhaustive
+                    enableSubmit()
+                }
             }
         }
     }
 
+    private fun licenceFrontState(state: Int?) {
+        binding.apply {
+            progressLicenceFront.isVisible = state == LOADING
+            imgEditLicenceFront.isVisible = state == SUCCESS
+            imgDeleteLicenceFront.isVisible = state == SUCCESS
+            imgRetryLicenceFront.isVisible = state == FAILURE
+            imgInsertLicenceFront.isVisible = state == null
+            txtAddLicenceFront.isVisible = state == null
+        }
+    }
+
+    private fun licenceBackState(state: Int?) {
+        binding.apply {
+            progressLicenceBack.isVisible = state == LOADING
+            imgEditLicenceBack.isVisible = state == SUCCESS
+            imgDeleteLicenceBack.isVisible = state == SUCCESS
+            imgRetryLicenceBack.isVisible = state == FAILURE
+            imgInsertLicenceBack.isVisible = state == null
+            txtAddLicenceBack.isVisible = state == null
+        }
+    }
+
+    private fun nationalIdBackState(state: Int?) {
+
+        binding.apply {
+            progressIdBack.isVisible = state == LOADING
+            imgEditIdBack.isVisible = state == SUCCESS
+            imgDeleteIdBack.isVisible = state == SUCCESS
+            imgRetryIdBack.isVisible = state == FAILURE
+            imgInsertIdBack.isVisible = state == null
+            txtAddIdBack.isVisible = state == null
+
+        }
+    }
+
+    private fun nationalIdFrontState(state: Int?) {
+        binding.apply {
+            progressIdFront.isVisible = state == LOADING
+            imgEditIdFront.isVisible = state == SUCCESS
+            imgDeleteIdFront.isVisible = state == SUCCESS
+            imgRetryIdFront.isVisible = state == FAILURE
+            imgInsertIdFront.isVisible = state == null
+            txtAddIdFront.isVisible = state == null
+        }
+    }
+
+    private fun personalImageState(state: Int?) {
+        binding.apply {
+            progressPersonalPhoto.isVisible = state == LOADING
+            imgEditPersonalPhoto.isVisible = state == SUCCESS
+            imgDeletePersonalPhoto.isVisible = state == SUCCESS
+            imgRetryPersonalPhoto.isVisible = state == FAILURE
+            imgInsertPhoto.isVisible = state == null
+            txtAddPhoto.isVisible = state == null
+        }
+    }
+
+    private fun enableSubmit(){
+        binding.btnSubmit.isEnabled = personalImgPath != null && idFrontPath != null && idBackPath != null && licenceFrontPath != null && licenceBackPath !=null
+
+    }
     private fun onClick() {
 
         binding.apply {
@@ -253,8 +368,11 @@ class PersonalInformationFragment : Fragment() {
                 pickImage(PERSONAL_IMAGE_FLAG)
             }
             imgDeletePersonalPhoto.setOnClickListener {
-                personalInfoViewModel.deleteImage(DeleteModel(listOf(personalImgPath)), PERSONAL_IMAGE_FLAG)
-                onPathDeleted(PERSONAL_IMAGE_FLAG)
+                deletePersonalImage = true
+                personalInfoViewModel.deleteImage(
+                    DeleteModel(listOf(personalImgPath)),
+                    PERSONAL_IMAGE_FLAG
+                )
             }
 
             imgInsertIdFront.setOnClickListener {
@@ -265,21 +383,26 @@ class PersonalInformationFragment : Fragment() {
                 pickImage(NATIONAL_ID_FRONT_FLAG)
             }
             imgDeleteIdFront.setOnClickListener {
-                personalInfoViewModel.deleteImage(DeleteModel(listOf(idFrontPath)), NATIONAL_ID_FRONT_FLAG)
-                onPathDeleted(NATIONAL_ID_FRONT_FLAG)
-
+                deleteIdFront = true
+                personalInfoViewModel.deleteImage(
+                    DeleteModel(listOf(idFrontPath)),
+                    NATIONAL_ID_FRONT_FLAG
+                )
             }
 
             imgInsertIdBack.setOnClickListener {
                 pickImage(NATIONAL_ID_BACK_FLAG)
             }
             imgEditIdBack.setOnClickListener {
-                pickImage(NATIONAL_ID_FRONT_FLAG)
+                pickImage(NATIONAL_ID_BACK_FLAG)
             }
 
             imgDeleteIdBack.setOnClickListener {
-                personalInfoViewModel.deleteImage(DeleteModel(listOf(idBackPath)), NATIONAL_ID_BACK_FLAG)
-                onPathDeleted(NATIONAL_ID_BACK_FLAG)
+                deleteIdBack = true
+                personalInfoViewModel.deleteImage(
+                    DeleteModel(listOf(idBackPath)),
+                    NATIONAL_ID_BACK_FLAG
+                )
             }
 
             imgInsertLicenceFront.setOnClickListener {
@@ -290,8 +413,11 @@ class PersonalInformationFragment : Fragment() {
             }
 
             imgDeleteLicenceFront.setOnClickListener {
-                personalInfoViewModel.deleteImage(DeleteModel(listOf(licenceFrontPath_)), LICENCE_FRONT_FLAG)
-                onPathDeleted(LICENCE_FRONT_FLAG)
+                deleteLicenceFront = true
+                personalInfoViewModel.deleteImage(
+                    DeleteModel(listOf(licenceFrontPath)),
+                    LICENCE_FRONT_FLAG
+                )
             }
 
             imgInsertLicenceBack.setOnClickListener {
@@ -302,125 +428,115 @@ class PersonalInformationFragment : Fragment() {
             }
 
             imgDeleteLicenceBack.setOnClickListener {
-                personalInfoViewModel.deleteImage(DeleteModel(listOf(licenceBackPath_)), LICENCE_BACK_FLAG)
-                onPathDeleted(LICENCE_BACK_FLAG)
+                deleteLicenceBack = true
+                personalInfoViewModel.deleteImage(
+                    DeleteModel(listOf(licenceBackPath)),
+                    LICENCE_BACK_FLAG
+                )
+
             }
 
-            btnNext.setOnClickListener {
-                registerCaptain()
+            btnSubmit.setOnClickListener {
+                    registerCaptain()
             }
 
             imgRetryPersonalPhoto.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    val pair = uploadImage(personalImgUri)
-                    personalInfoViewModel.uploadImage(pair.first, pair.second, PERSONAL_IMAGE_FLAG)
+                imgRetryPersonalPhoto.isVisible = false
+                if (deletePersonalImage) {
+                    personalInfoViewModel.deleteImage(
+                        DeleteModel(listOf(personalImgPath)),
+                        PERSONAL_IMAGE_FLAG
+                    )
+                } else {
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        val pair = uploadImage(personalImgUri)
+                        personalInfoViewModel.uploadImage(
+                            pair.first,
+                            pair.second,
+                            PERSONAL_IMAGE_FLAG
+                        )
+                    }
                 }
             }
 
             imgRetryIdFront.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    val pair = uploadImage(idFrontUri)
-                    personalInfoViewModel.uploadImage(pair.first, pair.second, PERSONAL_IMAGE_FLAG)
+                imgRetryIdFront.isVisible = false
+                if (deleteIdFront) {
+                    personalInfoViewModel.deleteImage(
+                        DeleteModel(listOf(idFrontPath)),
+                        NATIONAL_ID_FRONT_FLAG
+                    )
+                } else {
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        val pair = uploadImage(idFrontUri)
+                        personalInfoViewModel.uploadImage(
+                            pair.first,
+                            pair.second,
+                            NATIONAL_ID_FRONT_FLAG
+                        )
+                    }
                 }
             }
 
             imgRetryIdBack.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    val pair = uploadImage(idBackUri)
-                    personalInfoViewModel.uploadImage(pair.first, pair.second, PERSONAL_IMAGE_FLAG)
+                imgRetryIdBack.isVisible = false
+                if (deleteIdBack) {
+                    personalInfoViewModel.deleteImage(
+                        DeleteModel(listOf(idBackPath)),
+                        NATIONAL_ID_BACK_FLAG
+                    )
+                } else {
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        val pair = uploadImage(idBackUri)
+                        personalInfoViewModel.uploadImage(
+                            pair.first,
+                            pair.second,
+                            NATIONAL_ID_BACK_FLAG
+                        )
+                    }
                 }
             }
 
             imgRetryLicenceFront.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    val pair = uploadImage(licenceFrontUri)
-                    personalInfoViewModel.uploadImage(pair.first, pair.second, PERSONAL_IMAGE_FLAG)
+                imgRetryLicenceFront.isVisible = false
+                if (deleteLicenceFront) {
+                    personalInfoViewModel.deleteImage(
+                        DeleteModel(listOf(licenceFrontPath)),
+                        LICENCE_FRONT_FLAG
+                    )
+                } else {
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        val pair = uploadImage(this@PersonalInformationFragment.licenceFrontUri)
+                        personalInfoViewModel.uploadImage(
+                            pair.first,
+                            pair.second,
+                            LICENCE_FRONT_FLAG
+                        )
+                    }
                 }
             }
             imgRetryLicenceBack.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    val pair = uploadImage(licenceBackUri)
-                    personalInfoViewModel.uploadImage(pair.first, pair.second, PERSONAL_IMAGE_FLAG)
+                imgRetryLicenceBack.isVisible = false
+                if (deleteLicenceBack) {
+                    personalInfoViewModel.deleteImage(
+                        DeleteModel(listOf(licenceBackPath)),
+                        LICENCE_BACK_FLAG
+                    )
+                } else {
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        val pair = uploadImage(this@PersonalInformationFragment.licenceBackUri)
+                        personalInfoViewModel.uploadImage(
+                            pair.first,
+                            pair.second,
+                            LICENCE_BACK_FLAG
+                        )
+                    }
                 }
             }
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
 
-        }
-    }
-
-    private fun onPathDeleted(flag:Int) {
-        personalInfoViewModel.deleteImage.observe(viewLifecycleOwner) {
-            when (it) {
-                is UiState.Failure -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-
-                }
-
-                UiState.Loading -> {
-                }
-                is UiState.Success -> {
-                    when(flag){
-                        PERSONAL_IMAGE_FLAG ->{
-                            binding.apply {
-                                imgPersonalPhoto.setImageURI(null)
-                                imgDeletePersonalPhoto.isVisible = false
-                                imgEditPersonalPhoto.isVisible = false
-                                imgInsertPhoto.isVisible = true
-                                txtAddPhoto.isVisible = true
-                                personalImgPath = null
-                            }
-                        }
-                        NATIONAL_ID_FRONT_FLAG -> {
-                            binding.apply {
-                                imgInsertIdFront.isVisible = true
-                                txtAddIdFront.isVisible = true
-                                imgEditIdFront.isVisible = false
-                                imgDeleteIdFront.isVisible = false
-                                idFrontPath = null
-                            }
-                        }
-                        NATIONAL_ID_BACK_FLAG ->{
-                            binding.apply {
-
-                                imgIdBack.setImageURI(null)
-                                imgInsertIdBack.isVisible = true
-                                txtAddIdBack.isVisible = true
-                                imgEditIdBack.isVisible = false
-                                imgDeleteIdBack.isVisible = false
-                                idBackPath = null
-                            }
-                        }
-                        LICENCE_FRONT_FLAG ->{
-                            binding.apply {
-
-                                imgLicenceFront.setImageURI(null)
-                                imgInsertLicenceFront.isVisible = true
-                                txtAddLicenceFront.isVisible = true
-                                imgEditLicenceFront.isVisible = false
-                                imgDeleteLicenceFront.isVisible = false
-                                licenceFrontPath_ = null
-                            }
-                        }
-                        LICENCE_BACK_FLAG ->{
-                            binding.apply {
-
-                                imgLicenceBack.setImageURI(null)
-                                imgInsertLicenceBack.isVisible = true
-                                txtAddLicenceBack.isVisible = true
-                                imgEditLicenceBack.isVisible = false
-                                imgDeleteLicenceBack.isVisible = false
-                                licenceBackPath_ = null
-
-
-                            }
-                        }
-
-                        else->{}
-                    }
-
-                }
-
-                else -> {}
-            }.exhaustive
         }
     }
 
@@ -435,8 +551,8 @@ class PersonalInformationFragment : Fragment() {
             "android",
             idFrontPath,
             idBackPath,
-            licenceFrontPath_,
-            licenceBackPath_,
+            licenceFrontPath,
+            licenceBackPath,
             1
         )
 
@@ -455,12 +571,12 @@ class PersonalInformationFragment : Fragment() {
 //                    personalInfoViewModel.deleteImage(DeleteModel(listOf(personalImgPath)),PERSONAL_IMAGE_FLAG)
 //                    onPathDeleted(PERSONAL_IMAGE_FLAG)
 //                }
-                personalImgUri = data?.data
-                binding.apply {
-                    imgInsertPhoto.isVisible = false
-                    txtAddPhoto.isVisible = false
-                    progressPersonalPhoto.isVisible = true
-                }
+                personalInfoViewModel.setUri(data?.data, PERSONAL_IMAGE_FLAG)
+//                binding.apply {
+//                    imgInsertPhoto.isVisible = false
+//                    txtAddPhoto.isVisible = false
+//                    progressPersonalPhoto.isVisible = true
+//                }
 
                 viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                     val pair = uploadImage(data?.data)
@@ -473,17 +589,19 @@ class PersonalInformationFragment : Fragment() {
 //                    personalInfoViewModel.deleteImage(DeleteModel(listOf(idFrontPath)), NATIONAL_ID_FRONT_FLAG)
 //                    idFrontPath = null
 //                }
-                idFrontUri = data?.data
-                binding.apply {
-                    imgInsertIdFront.isVisible = false
-                    txtAddIdFront.isVisible = false
-                    progressIdFront.isVisible = true
-                }
+                personalInfoViewModel.setUri(data?.data, NATIONAL_ID_FRONT_FLAG)
+//                binding.apply {
+//                    imgInsertIdFront.isVisible = false
+//                    txtAddIdFront.isVisible = false
+//                    progressIdFront.isVisible = true
+//                }
 
                 viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                     val pair = uploadImage(data?.data)
                     personalInfoViewModel.uploadImage(
-                        pair.first, pair.second, NATIONAL_ID_FRONT_FLAG
+                        pair.first,
+                        pair.second,
+                        NATIONAL_ID_FRONT_FLAG
                     )
                 }
 
@@ -493,14 +611,14 @@ class PersonalInformationFragment : Fragment() {
 //                    personalInfoViewModel.deleteImage(DeleteModel(listOf(idBackPath)), NATIONAL_ID_BACK_FLAG)
 //                    idBackPath = null
 //                }
-                idBackUri = data?.data
-
-                binding.apply {
-                    imgInsertIdBack.isVisible = false
-                    txtAddIdBack.isVisible = false
-                    progressIdBack.isVisible = true
-
-                }
+                personalInfoViewModel.setUri(data?.data, NATIONAL_ID_BACK_FLAG)
+//
+//                binding.apply {
+//                    imgInsertIdBack.isVisible = false
+//                    txtAddIdBack.isVisible = false
+//                    progressIdBack.isVisible = true
+//
+//                }
 
 
                 viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -516,14 +634,14 @@ class PersonalInformationFragment : Fragment() {
 //                    licenceFrontPath_ = null
 //                }
 
-                licenceFrontUri = data?.data
-
-                binding.apply {
-                    imgInsertLicenceFront.isVisible = false
-                    txtAddLicenceFront.isVisible = false
-                    progressLicenceFront.isVisible = true
-
-                }
+                personalInfoViewModel.setUri(data?.data, LICENCE_FRONT_FLAG)
+//
+//                binding.apply {
+//                    imgInsertLicenceFront.isVisible = false
+//                    txtAddLicenceFront.isVisible = false
+//                    progressLicenceFront.isVisible = true
+//
+//                }
 
 
                 viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -537,24 +655,21 @@ class PersonalInformationFragment : Fragment() {
 //                    licenceBackPath_ = null
 //                }
 
-                licenceBackUri = data?.data
-
-                binding.apply {
-                    imgInsertLicenceBack.isVisible = false
-                    txtAddLicenceBack.isVisible = false
-                    progressLicenceBack.isVisible = true
-
-                }
-
+                personalInfoViewModel.setUri(data?.data, LICENCE_BACK_FLAG)
+//
+//                binding.apply {
+//                    imgInsertLicenceBack.isVisible = false
+//                    txtAddLicenceBack.isVisible = false
+//                    progressLicenceBack.isVisible = true
+//
+//                }
+//
 
                 viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                     val pair = uploadImage(data?.data)
                     personalInfoViewModel.uploadImage(pair.first, pair.second, LICENCE_BACK_FLAG)
                 }
             }
-
-
-            onImageUploadObserve()
 
         }
 
@@ -563,20 +678,9 @@ class PersonalInformationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        personalImgPath = null
-        idBackPath = null
-        idFrontPath = null
-        licenceFrontPath_ = null
-        licenceBackPath_ = null
 
-        personalImgUri = null
-        idBackUri = null
-        idFrontUri= null
-        licenceFrontUri = null
-        licenceBackUri = null
 
     }
-
 
 
 }

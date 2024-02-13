@@ -1,33 +1,34 @@
 package com.israa.atmodrivecaptain.auth.presentation.fragments
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.israa.atmodrivecaptain.R
-import com.israa.atmodrivecaptain.auth.AuthActivity
-import com.israa.atmodrivecaptain.auth.data.model.CheckCodeResponse
 import com.israa.atmodrivecaptain.auth.data.model.SendCodeResponse
-import com.israa.atmodrivecaptain.auth.domain.model.CheckCode
+import com.israa.atmodrivecaptain.auth.domain.model.CaptainDetails
 import com.israa.atmodrivecaptain.auth.presentation.viewmodels.LoginViewModel
 import com.israa.atmodrivecaptain.databinding.FragmentLoginBinding
-import com.israa.atmodrivecaptain.home.HomeActivity
+import com.israa.atmodrivecaptain.home.presentation.HomeActivity
 import com.israa.atmodrivecaptain.utils.Progressbar
 import com.israa.atmodrivecaptain.utils.UiState
-import com.israa.atmodrivecaptain.utils.exhaustive
+import com.israa.atmodrivecaptain.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlin.math.log
 
 
 @AndroidEntryPoint
@@ -52,6 +53,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         onClick()
+        enableSendCode()
+        enableContinueButton()
         observeOnSendCode()
     }
 
@@ -60,18 +63,101 @@ class LoginFragment : Fragment() {
         binding.apply {
 
             txtSendCode.setOnClickListener{
-                loginViewModel.sendCode("0${editTextPhone.text}")
+                val mobile = if(editTextPhone.text.isNotEmpty()) "0${editTextPhone.text}" else ""
+
+                loginViewModel.sendCode(mobile)
             }
             txtResend.setOnClickListener{
-                loginViewModel.sendCode("0${editTextPhone.text}")
+                val mobile = if(editTextPhone.text.isNotEmpty()) "0${editTextPhone.text}" else ""
+
+                loginViewModel.sendCode(mobile)
             }
             btnContinue.setOnClickListener {
-                val mobile = "0${editTextPhone.text}"
+                val mobile = if(editTextPhone.text.isNotEmpty()) "0${editTextPhone.text}" else ""
+
                 loginViewModel.checkCode(mobile,editTextOtp.text.toString(),"device_token:${mobile}")
                 observeOnCheckCode()
             }
+            editTextPhone.setOnLongClickListener {
+
+                editCopiedNumber()
+                return@setOnLongClickListener true
+            }
+            editTextPhone.addTextChangedListener(object :TextWatcher{
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    editCopiedNumber()
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    enableSendCode()
+                }
+
+            })
+
+            editTextOtp.addTextChangedListener(object :TextWatcher{
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                    enableContinueButton()
+                }
+
+            })
+        }
+    }
+
+    private fun editCopiedNumber() {
+        val clipboard =
+            (requireActivity().getSystemService(Context.CLIPBOARD_SERVICE)) as? ClipboardManager
+        var pasteText = ""
+        clipboard?.let {
+            if (it.hasPrimaryClip()) {
+                val item = it.primaryClip!!.getItemAt(0)
+                pasteText = item.text.toString()
+            }
+            if (pasteText.isNotEmpty()) {
+                pasteText = pasteText.replace("+20", "")
+                    .replace(" ", "")
+                if(pasteText[0] == '0'){
+                    pasteText = pasteText.replaceFirst("0","")
+                }
+                if (pasteText.length != 10) {
+                    pasteText = ""
+                }
+                val clip = ClipData.newPlainText("simple text", pasteText)
+                it.setPrimaryClip(clip)
+            }
+        }
+    }
 
 
+    private fun enableSendCode() {
+        binding.apply {
+            txtSendCode.isEnabled = editTextPhone.text.toString().length == 10
+        }
+    }
+
+    private fun enableContinueButton() {
+        binding.apply {
+            btnContinue.isEnabled = editTextOtp.text.toString().length == 4 && editTextPhone.text.toString().length == 10
         }
     }
 
@@ -133,11 +219,15 @@ class LoginFragment : Fragment() {
             loginViewModel.checkCodeData.collect{
                 when (it) {
                     is UiState.Success -> {
-                        val data = it.data as CheckCode
+                        val data = it.data as CaptainDetails
 
                         //navigate(mobile!!)
-                        loginViewModel.navigate(data.register_step) //"
+                        loginViewModel.navigate(data.registerStep)
                         navigate("0${binding.editTextPhone.text}")
+                        binding.apply {
+                            editTextPhone.text = null
+                            editTextOtp.text = null
+                        }
                         Progressbar.dismiss()
                     }
 
@@ -155,12 +245,12 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun navigate(mobile: String ) {
+    private fun navigate(mobile: String) {
         lifecycleScope.launchWhenStarted {
             loginViewModel.loginEvent.collect{ event->
                 when(event){
                     LoginViewModel.LoginEvents.NavigateToBankAccountInfo ->{
-                        findNavController().navigate(R.id.bankAccountFragment)
+                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToBankAccountFragment())
                     }
                     LoginViewModel.LoginEvents.NavigateToHome -> {
                         startActivity(Intent(requireActivity(), HomeActivity::class.java))
@@ -171,9 +261,11 @@ class LoginFragment : Fragment() {
                         navigate(LoginFragmentDirections.actionLoginFragmentToPersonalInfoFragment(mobile))
 
                     LoginViewModel.LoginEvents.NavigateToVehicleInfo ->{
-                        findNavController().navigate(R.id.vehicleInformationFragment)
+                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToVehicleInformationFragment())
                     }
-                }.exhaustive
+
+                    LoginViewModel.LoginEvents.NotActive -> showToast("Wait until your account is activated")
+                }
             }
         }
     }
