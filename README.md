@@ -8,6 +8,8 @@
 
 # Technologies used:
 
+- kotlin
+  
  - Google Map sdk
 
  - Retrofit
